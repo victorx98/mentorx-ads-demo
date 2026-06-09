@@ -1,0 +1,7 @@
+node_modules/
+dist/
+standalone-html/
+.DS_Store
+*.log
+.vercel
+.env*
