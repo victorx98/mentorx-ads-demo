@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://lp.mentorx.net/</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/en</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/opt</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/opt" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/opt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/opt" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/en/opt</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/opt" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/opt" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/opt" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/internship</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/internship" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/internship" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/internship" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/en/internship</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/internship" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/internship" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/internship" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/occupation</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/occupation" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/occupation" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/occupation" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/en/occupation</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/occupation" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/occupation" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/occupation" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/short-version</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/short-version" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/short-version" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/short-version" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/en/short-version</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/short-version" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/short-version" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/short-version" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/opt-short-version</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/opt-short-version" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/opt-short-version" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/opt-short-version" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/en/opt-short-version</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/opt-short-version" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/opt-short-version" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/opt-short-version" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/internship-short-version</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/internship-short-version" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/internship-short-version" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/internship-short-version" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/en/internship-short-version</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/internship-short-version" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/internship-short-version" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/internship-short-version" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/occupation-short-version</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/occupation-short-version" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/occupation-short-version" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/occupation-short-version" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/en/occupation-short-version</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/occupation-short-version" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/occupation-short-version" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/occupation-short-version" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/general-2pageposter</loc>
+    <lastmod>2026-06-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>

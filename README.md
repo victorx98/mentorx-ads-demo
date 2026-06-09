@@ -1,25 +1,16 @@
 
-# MentorX (Copy)
+# MentorX Landing Pages
 
-This is the local React/Vite project generated from `/Users/yiwenle/Downloads/MentorX (Copy).zip`.
-The original Figma project is available at https://www.figma.com/design/gCRl5NtTk5onvu68mbMMPv/MentorX--Copy-.
+React/Vite project for MentorX advertising landing pages.
 
 ## Running The Code
-
-If `npm` is available in your shell:
 
 ```bash
 npm install
 npm run dev
 ```
 
-In this Codex session, npm was installed locally here:
-
-```bash
-PATH=/Users/yiwenle/.cache/codex-tools/node-v24.16.0-darwin-arm64/bin:$PATH npm run dev
-```
-
-The dev server is currently running at:
+Local dev server:
 
 ```text
 http://127.0.0.1:5173/
