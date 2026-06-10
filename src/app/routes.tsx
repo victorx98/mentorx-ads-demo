@@ -1,21 +1,22 @@
-import { type ReactElement } from 'react';
-import { LandingPage } from './components/LandingPage';
-import { LandingPageEn } from './components/LandingPageEn';
-import { OPT } from './components/OPT';
-import { OPTEn } from './components/OPTEn';
-import { Internship } from './components/Internship';
-import { InternshipEn } from './components/InternshipEn';
-import { Occupation } from './components/Occupation';
-import { OccupationEn } from './components/OccupationEn';
-import { LandingPage as ShortVersion } from './components/ShortVersion';
-import { LandingPage as ShortVersionEn } from './components/ShortVersionEn';
-import { OPT as OptShortVersion } from './components/OptShortVersion';
-import { OPT as OptShortVersionEn } from './components/OptShortVersionEn';
-import { Internship as InternshipShortVersion } from './components/InternshipShortVersion';
-import { Internship as InternshipShortVersionEn } from './components/InternshipShortVersionEn';
-import { Occupation as OccupationShortVersion } from './components/OccupationShortVersion';
-import { Occupation as OccupationShortVersionEn } from './components/OccupationShortVersionEn';
-import { General2PagePoster } from './components/General2PagePoster';
+import { lazy, type ReactElement } from 'react';
+
+const LandingPage = lazy(() => import('./components/LandingPage').then(module => ({ default: module.LandingPage })));
+const LandingPageEn = lazy(() => import('./components/LandingPageEn').then(module => ({ default: module.LandingPageEn })));
+const OPT = lazy(() => import('./components/OPT').then(module => ({ default: module.OPT })));
+const OPTEn = lazy(() => import('./components/OPTEn').then(module => ({ default: module.OPTEn })));
+const Internship = lazy(() => import('./components/Internship').then(module => ({ default: module.Internship })));
+const InternshipEn = lazy(() => import('./components/InternshipEn').then(module => ({ default: module.InternshipEn })));
+const Occupation = lazy(() => import('./components/Occupation').then(module => ({ default: module.Occupation })));
+const OccupationEn = lazy(() => import('./components/OccupationEn').then(module => ({ default: module.OccupationEn })));
+const ShortVersion = lazy(() => import('./components/ShortVersion').then(module => ({ default: module.LandingPage })));
+const ShortVersionEn = lazy(() => import('./components/ShortVersionEn').then(module => ({ default: module.LandingPage })));
+const OptShortVersion = lazy(() => import('./components/OptShortVersion').then(module => ({ default: module.OPT })));
+const OptShortVersionEn = lazy(() => import('./components/OptShortVersionEn').then(module => ({ default: module.OPT })));
+const InternshipShortVersion = lazy(() => import('./components/InternshipShortVersion').then(module => ({ default: module.Internship })));
+const InternshipShortVersionEn = lazy(() => import('./components/InternshipShortVersionEn').then(module => ({ default: module.Internship })));
+const OccupationShortVersion = lazy(() => import('./components/OccupationShortVersion').then(module => ({ default: module.Occupation })));
+const OccupationShortVersionEn = lazy(() => import('./components/OccupationShortVersionEn').then(module => ({ default: module.Occupation })));
+const General2PagePoster = lazy(() => import('./components/General2PagePoster').then(module => ({ default: module.General2PagePoster })));
 
 export type AppRoute = {
   path: string;
