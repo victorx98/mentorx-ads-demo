@@ -3,11 +3,11 @@ import { X, MessageCircle, Check, Clock, Users, TrendingUp, Building2 } from 'lu
 import logoImg from '../../imports/mentorx-logo.svg';
 import wechatQrImg from '../../imports/wechat-qr.svg';
 import studentImg from '../../imports/shutterstock_2553528401.webp';
+import heroMaleImg from '../../imports/mentorx-hero-male.webp';
 
 const WEIXIN_URL = 'https://work.weixin.qq.com/ca/cawcde13ce4f06e70b';
 const WEIXIN_ID = 'Mentorx01';
-const HERO_IMG =
-  'https://images.unsplash.com/photo-1759852692971-a2abc6799cbd?w=700&h=900&fit=crop&crop=top&auto=format';
+const HERO_IMG = heroMaleImg;
 const CANVAS = '#F6FAF8';
 const MINT_BAND = '#EEF8F4';
 const SURFACE = '#FFFFFF';
@@ -490,7 +490,12 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
                 <img
                   src={HERO_IMG}
                   alt="Confident international student"
+                  width={900}
+                  height={1125}
                   className="w-full h-full object-cover object-top"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                 />
                 <div
                   className="absolute bottom-0 left-0 right-0 h-1/4"

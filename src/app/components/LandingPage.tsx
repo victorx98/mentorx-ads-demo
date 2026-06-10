@@ -501,7 +501,12 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
                 <img
                   src={HERO_IMG}
                   alt="自信的留学生"
+                  width={1122}
+                  height={1402}
                   className="w-full h-full object-cover object-center"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                 />
                 <div
                   className="absolute bottom-0 left-0 right-0 h-1/4"

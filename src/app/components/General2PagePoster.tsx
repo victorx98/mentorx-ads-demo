@@ -191,8 +191,12 @@ function HeroScene() {
       <img
         src={heroVisualImg}
         alt="留学生在城市办公室窗边使用电脑进行求职规划"
+        width={1254}
+        height={1254}
         className="absolute inset-0 h-full w-full object-cover object-[58%_50%]"
         loading="eager"
+        fetchPriority="high"
+        decoding="async"
       />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.36)_0%,rgba(255,255,255,0.08)_44%,rgba(255,255,255,0)_100%)]" />
       <div className="absolute -right-14 -top-24 h-72 w-72 rounded-full border-[34px] border-[#BEEFD7]/55" />
