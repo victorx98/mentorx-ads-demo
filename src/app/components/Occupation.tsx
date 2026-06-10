@@ -1876,7 +1876,7 @@ export function Occupation() {
   const close = () => setModalOpen(false);
 
   return (
-    <div className="overflow-x-hidden" style={{ background: CANVAS, fontFamily: "'Plus Jakarta Sans', 'Noto Sans SC', system-ui, -apple-system, sans-serif" }}>
+    <div className="overflow-x-hidden" style={{ background: CANVAS, fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif" }}>
       <style>{`
         @keyframes tickerLeft {
           0%   { transform: translateX(0); }
