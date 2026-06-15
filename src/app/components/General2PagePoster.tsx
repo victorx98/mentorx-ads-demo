@@ -3,8 +3,9 @@ import { ArrowUpRight, Check, FileText, Gift, LineChart, Target, TrendingUp, X }
 import logoImg from '../../imports/mentorx-logo.svg';
 import wechatQrImg from '../../imports/wechat-qr.svg';
 import heroVisualImg from '../../imports/general-2pageposter-hero.webp';
+import { getLatestCtaSource, trackCTAIntent, trackQrModalEngaged, trackQrModalOpen } from '../analytics';
 
-const WEIXIN_URL = 'https://work.weixin.qq.com/ca/cawcde13ce4f06e70b';
+const WEIXIN_URL = 'https://work.weixin.qq.com/ca/cawcdefad5934f25ca';
 const WEIXIN_ID = 'Mentorx01';
 const GREEN = '#00A870';
 const GREEN_DARK = '#0D2E1E';
@@ -118,8 +119,8 @@ function QRCodeSVG({ size = 190 }: { size?: number }) {
       alt="扫码添加蔓藤教育顾问微信，获取求职方案"
       width={size}
       height={size}
-      className="block rounded-[3px]"
-      style={{ width: size, height: size }}
+      className="block rounded-[3px] bg-white object-contain"
+      style={{ width: size, height: size, aspectRatio: '1 / 1' }}
     />
   );
 }
@@ -128,6 +129,19 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const source = getLatestCtaSource();
+    trackQrModalOpen(source);
+    const engagedTimer = window.setTimeout(() => {
+      trackQrModalEngaged(source, 10);
+    }, 10000);
+
+    return () => window.clearTimeout(engagedTimer);
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -141,12 +155,12 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
         style={{ animation: 'modalIn 0.2s ease' }}
       >
         <div
-          className="px-7 pb-5 pt-7 text-center text-white"
-          style={{ background: 'linear-gradient(150deg, #0D2E1E 0%, #1b4d32 100%)' }}
+          className="px-7 pb-5 pt-7 text-center text-[#10231D]"
+          style={{ background: 'linear-gradient(180deg, #EAF8F1 0%, #F5FCF8 100%)', borderBottom: '1px solid rgba(0, 168, 112, 0.10)' }}
         >
           <button
             onClick={onClose}
-            className="absolute right-3.5 top-3.5 flex h-7 w-7 items-center justify-center rounded-full bg-white/15 transition-colors hover:bg-white/25"
+            className="absolute right-3.5 top-3.5 flex h-7 w-7 items-center justify-center rounded-full bg-[#10231D]/8 text-[#10231D] transition-colors hover:bg-[#10231D]/12"
             aria-label="关闭弹窗"
           >
             <X size={14} />
@@ -171,7 +185,7 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
             target="_blank"
             rel="noopener noreferrer"
             className="flex h-11 w-full items-center justify-center gap-2 rounded-xl text-[14px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.98]"
-            style={{ background: '#07C160' }}
+            style={{ background: '#00A870' }}
           >
             打开微信，添加顾问
           </a>
@@ -240,9 +254,10 @@ function HeroScene() {
 
 export function General2PagePoster() {
   const [modalOpen, setModalOpen] = useState(false);
-  const openCTA = () => {
-    if (window.matchMedia('(max-width: 767px)').matches) {
-      window.location.assign(WEIXIN_URL);
+  const openCTA = (event?: unknown) => {
+    const { isMobile } = trackCTAIntent(event, WEIXIN_URL);
+    if (isMobile) {
+      window.setTimeout(() => window.location.assign(WEIXIN_URL), 120);
       return;
     }
 

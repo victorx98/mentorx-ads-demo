@@ -1,5 +1,6 @@
 import { Suspense } from 'react';
 import { BrowserRouter, MemoryRouter, Routes, Route } from 'react-router-dom';
+import { AnalyticsTracker } from './AnalyticsTracker';
 import { appRoutes } from './routes';
 import { SeoManager } from './seo';
 
@@ -7,6 +8,7 @@ function RouteList() {
   return (
     <>
       <SeoManager />
+      <AnalyticsTracker />
       <Suspense fallback={<div className="min-h-screen bg-white" />}>
         <Routes>
           {appRoutes.flatMap(route => {

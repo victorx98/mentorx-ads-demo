@@ -4,8 +4,9 @@ import logoImg from '../../imports/mentorx-logo.svg';
 import wechatQrImg from '../../imports/wechat-qr.svg';
 import studentImg from '../../imports/shutterstock_2553528401.webp';
 import heroBannerImg from '../../imports/banner1.webp';
+import { getLatestCtaSource, trackCTAIntent, trackQrModalEngaged, trackQrModalOpen } from '../analytics';
 
-const WEIXIN_URL = 'https://work.weixin.qq.com/ca/cawcde13ce4f06e70b';
+const WEIXIN_URL = 'https://work.weixin.qq.com/ca/cawcdefad5934f25ca';
 const WEIXIN_ID = 'Mentorx01';
 const HERO_IMG = heroBannerImg;
 const CANVAS = '#F6FAF8';
@@ -148,8 +149,8 @@ function QRCodeSVG({ size = 140 }: { size?: number; color?: string }) {
       alt="扫码添加蔓藤教育顾问微信，获取求职方案"
       width={size}
       height={size}
-      className="block rounded-[3px]"
-      style={{ width: size, height: size }}
+      className="block rounded-[3px] bg-white object-contain"
+      style={{ width: size, height: size, aspectRatio: '1 / 1' }}
     />
   );
 }
@@ -160,6 +161,19 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const source = getLatestCtaSource();
+    trackQrModalOpen(source);
+    const engagedTimer = window.setTimeout(() => {
+      trackQrModalEngaged(source, 10);
+    }, 10000);
+
+    return () => window.clearTimeout(engagedTimer);
   }, [isOpen]);
 
   if (!isOpen) return null;
@@ -173,12 +187,12 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
         style={{ animation: 'modalIn 0.2s ease' }}
       >
         <div
-          className="px-7 pt-7 pb-5 text-white text-center"
-          style={{ background: 'linear-gradient(150deg, #0D2E1E 0%, #1b4d32 100%)' }}
+          className="px-7 pt-7 pb-5 text-[#10231D] text-center"
+          style={{ background: 'linear-gradient(180deg, #EAF8F1 0%, #F5FCF8 100%)', borderBottom: '1px solid rgba(0, 168, 112, 0.10)' }}
         >
           <button
             onClick={onClose}
-            className="absolute top-3.5 right-3.5 w-7 h-7 flex items-center justify-center rounded-full bg-white/15 hover:bg-white/25 transition-colors"
+            className="absolute top-3.5 right-3.5 w-7 h-7 flex items-center justify-center rounded-full bg-[#10231D]/8 hover:bg-[#10231D]/12 text-[#10231D] transition-colors"
           >
             <X size={14} />
           </button>
@@ -202,7 +216,7 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-white text-[14px] font-semibold transition-all hover:opacity-90 active:scale-[0.98]"
-            style={{ background: '#07C160' }}
+            style={{ background: '#00A870' }}
           >
             打开微信，添加顾问
           </a>
@@ -1598,7 +1612,7 @@ function NavBar({ onCTA }: { onCTA: () => void }) {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <a
-            href="/en"
+            href="/en/general"
             className="inline-flex h-9 items-center justify-center rounded-full border px-3 text-[13px] font-semibold transition-all hover:border-[#00A870] hover:text-[#00A870] active:scale-[0.97]"
             style={{ borderColor: 'rgba(0,168,112,0.2)', color: GREEN_DARK, background: 'rgba(255,255,255,0.72)' }}
             aria-label="Switch language"
@@ -1622,9 +1636,10 @@ function NavBar({ onCTA }: { onCTA: () => void }) {
 
 export function LandingPage() {
   const [modalOpen, setModalOpen] = useState(false);
-  const open = () => {
-    if (window.matchMedia('(max-width: 767px)').matches) {
-      window.location.assign(WEIXIN_URL);
+  const open = (event?: unknown) => {
+    const { isMobile } = trackCTAIntent(event, WEIXIN_URL);
+    if (isMobile) {
+      window.setTimeout(() => window.location.assign(WEIXIN_URL), 120);
       return;
     }
 
