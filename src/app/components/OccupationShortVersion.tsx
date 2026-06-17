@@ -247,7 +247,7 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
         style={{ animation: 'modalIn 0.2s ease' }}
       >
         <div
-          className="px-7 pt-7 pb-5 text-[#10231D] text-center"
+          className="rounded-t-2xl px-7 pt-7 pb-5 text-[#10231D] text-center"
           style={{ background: 'linear-gradient(180deg, #EAF8F1 0%, #F5FCF8 100%)', borderBottom: '1px solid rgba(0, 168, 112, 0.10)' }}
         >
           <button
@@ -257,7 +257,7 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
             <X size={14} />
           </button>
           <div className="text-[10px] font-medium tracking-[0.14em] opacity-50 mb-2.5 uppercase">蔓藤教育 MentorX</div>
-          <h3 className="text-[20px] font-semibold mb-1.5">扫码领取专属求职规划</h3>
+          <h3 className="mb-2 text-[20px] font-semibold leading-snug">扫码<span className="mx-1 inline-flex -translate-y-px items-center rounded-full bg-[#DFF5EC] px-2.5 py-0.5 text-[#00A870] shadow-[inset_0_0_0_1px_rgba(0,168,112,0.12)]">免费领取</span>专属求职规划</h3>
           <p className="text-[13px] opacity-70 leading-relaxed">获取最新岗位资源、简历建议与求职时间线</p>
         </div>
 
@@ -265,21 +265,12 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
           <div className="inline-flex items-center justify-center mb-5">
             <QRCodeSVG size={190} />
           </div>
-          <div className="flex items-center justify-center gap-2 mb-5">
+          <div className="flex items-center justify-center gap-2 mb-0">
             <span className="text-gray-400 text-[12px]">微信号</span>
             <span className="font-semibold text-gray-900 text-[13px] bg-gray-100 px-3 py-1 rounded-full tracking-wide">
               {WEIXIN_ID}
             </span>
           </div>
-          <a
-            href={WEIXIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-white text-[14px] font-semibold transition-all hover:opacity-90 active:scale-[0.98]"
-            style={{ background: '#00A870' }}
-          >
-            打开微信，添加顾问
-          </a>
         </div>
 
         <div className="pb-5 text-center text-[11px] text-gray-400">
@@ -517,16 +508,8 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
             </div>
 
             <h1
-              className="font-semibold leading-[1.1] mb-4 text-[34px] md:hidden"
-              style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', wordBreak: 'keep-all', overflowWrap: 'normal' }}
-            >
-              <span className="whitespace-nowrap">不同专业背景，</span><br />
-              <span className="whitespace-nowrap">都能找到更适合的职业路径</span>
-            </h1>
-
-            <h1
-              className="hidden font-semibold leading-[1.1] mb-4 md:block md:text-[40px] lg:text-[54px]"
-              style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', wordBreak: 'keep-all', overflowWrap: 'normal' }}
+              className="font-semibold leading-[1.1] mb-4 text-[34px] md:text-[40px] lg:text-[54px]"
+              style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', overflowWrap: 'break-word' }}
             >
           专业竞争太激烈？求职上岸更要<span className="whitespace-nowrap" style={{ color: GREEN }}>先人一步</span>
             </h1>
@@ -535,7 +518,7 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
               结合你的专业背景、目标行业和求职阶段，帮你匹配更适合的实习与全职路径。
             </p>
 
-            <div className="mb-4 md:mb-5">
+            <div className="mb-4">
               <button
                 onClick={onCTA}
                 className="inline-flex h-12 items-center justify-center rounded-[10px] px-8 text-[15px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00A870]"
@@ -647,7 +630,7 @@ function LeadCaptureSection({ onCTA }: { onCTA: () => void }) {
           <div className="rounded-[12px] p-5 text-white" style={{ background: GREEN_DARK }}>
             <div className="mb-2 text-[13px] font-medium" style={{ color: '#9BE5C3' }}>免费职业评估</div>
             <h2 className="mb-3 text-[28px] font-semibold leading-tight" style={{ letterSpacing: '-0.02em' }}>先把求职卡点说清楚，再决定怎么补。</h2>
-            <p className="mb-0 text-[14px] leading-relaxed text-white/70 md:mb-5">适合获客入口：用户不用先理解所有产品，只需要留下咨询意向，我们用评估承接转化。</p>
+            <p className="mb-0 text-[14px] leading-relaxed text-white/70">适合获客入口：用户不用先理解所有产品，只需要留下咨询意向，我们用评估承接转化。</p>
             <button
               onClick={onCTA}
               className="hidden md:block h-11 w-full rounded-[10px] bg-white px-5 text-[14px] font-semibold transition-all active:scale-[0.98]"
@@ -1812,7 +1795,7 @@ function MobileBar({ onCTA }: { onCTA: () => void }) {
         className="w-full h-12 rounded-[10px] text-white text-[15px] font-semibold transition-all active:scale-[0.98]"
         style={{ background: '#00A870' }}
       >
-        免费咨询
+        打开微信，领取诊断
       </button>
     </div>
   );

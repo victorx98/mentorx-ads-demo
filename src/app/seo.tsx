@@ -267,7 +267,7 @@ export const seoEntries: Record<string, SeoEntry> = {
     keywords: '留学生求职；美国实习；OPT 求职；全职求职；简历优化；面试准备',
     lang: 'zh-CN',
     canonicalPath: '/general-2pageposter',
-    robots: 'noindex, follow',
+    robots: 'index, follow',
   },
 };
 

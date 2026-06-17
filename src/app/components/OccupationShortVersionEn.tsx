@@ -247,7 +247,7 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
         style={{ animation: 'modalIn 0.2s ease' }}
       >
         <div
-          className="px-7 pt-7 pb-5 text-[#10231D] text-center"
+          className="rounded-t-2xl px-7 pt-7 pb-5 text-[#10231D] text-center"
           style={{ background: 'linear-gradient(180deg, #EAF8F1 0%, #F5FCF8 100%)', borderBottom: '1px solid rgba(0, 168, 112, 0.10)' }}
         >
           <button
@@ -265,21 +265,12 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
           <div className="inline-flex items-center justify-center mb-5">
             <QRCodeSVG size={190} />
           </div>
-          <div className="flex items-center justify-center gap-2 mb-5">
+          <div className="flex items-center justify-center gap-2 mb-0">
             <span className="text-gray-400 text-[12px]">WeChat</span>
             <span className="font-semibold text-gray-900 text-[13px] bg-gray-100 px-3 py-1 rounded-full tracking-wide">
               {WEIXIN_ID}
             </span>
           </div>
-          <a
-            href={WEIXIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-white text-[14px] font-semibold transition-all hover:opacity-90 active:scale-[0.98]"
-            style={{ background: '#00A870' }}
-          >
-            Open WeChat and Add a Consultant
-          </a>
         </div>
 
         <div className="pb-5 text-center text-[11px] text-gray-400">
@@ -517,25 +508,17 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
             </div>
 
             <h1
-              className="font-semibold leading-[1.1] mb-4 text-[34px] md:hidden"
-              style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', wordBreak: 'keep-all', overflowWrap: 'normal' }}
+              className="font-semibold leading-[1.1] mb-4 text-[34px] md:text-[40px] lg:text-[54px]"
+              style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', overflowWrap: 'break-word' }}
             >
-              <span className="whitespace-nowrap">Different Academic Backgrounds,</span><br />
-              <span className="whitespace-nowrap">Can Still Lead to Better-Fit Career Paths</span>
-            </h1>
-
-            <h1
-              className="hidden font-semibold leading-[1.1] mb-4 md:block md:text-[40px] lg:text-[54px]"
-              style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', wordBreak: 'keep-all', overflowWrap: 'normal' }}
-            >
-          	Turn Your Major Into <span className="whitespace-nowrap" style={{ color: GREEN }}>Job-Search Advantages.</span>
+          	Turn Your Major Into <span style={{ color: GREEN }}>Job-Search Advantages.</span>
             </h1>
 
             <p className="hidden text-[16px] leading-relaxed mb-4 max-w-[19rem] sm:max-w-md md:block" style={{ color: INK_MUTED, overflowWrap: 'anywhere' }}>
               From business and social sciences to tech, engineering, and design, MentorX helps you turn your major into a stronger career path.
             </p>
 
-            <div className="mb-4 md:mb-5">
+            <div className="mb-4">
               <button
                 onClick={onCTA}
                 className="inline-flex h-12 items-center justify-center rounded-[10px] px-8 text-[15px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00A870]"
@@ -647,7 +630,7 @@ function LeadCaptureSection({ onCTA }: { onCTA: () => void }) {
           <div className="rounded-[12px] p-5 text-white" style={{ background: GREEN_DARK }}>
             <div className="mb-2 text-[13px] font-medium" style={{ color: '#9BE5C3' }}>Free Career Assessment</div>
             <h2 className="mb-3 text-[28px] font-semibold leading-tight" style={{ letterSpacing: '-0.02em' }}>Clarify the Bottleneck Before Deciding What to Fix.</h2>
-            <p className="mb-0 text-[14px] leading-relaxed text-white/70 md:mb-5">A simple entry point for consultation: users do not need to understand every service first. They share their intent, and the assessment guides the next step.</p>
+            <p className="mb-0 text-[14px] leading-relaxed text-white/70">A simple entry point for consultation: users do not need to understand every service first. They share their intent, and the assessment guides the next step.</p>
             <button
               onClick={onCTA}
               className="hidden md:block h-11 w-full rounded-[10px] bg-white px-5 text-[14px] font-semibold transition-all active:scale-[0.98]"
@@ -1812,7 +1795,7 @@ function MobileBar({ onCTA }: { onCTA: () => void }) {
         className="w-full h-12 rounded-[10px] text-white text-[15px] font-semibold transition-all active:scale-[0.98]"
         style={{ background: '#00A870' }}
       >
-        Book a Free Consultation
+        Open WeChat for Free Assessment
       </button>
     </div>
   );

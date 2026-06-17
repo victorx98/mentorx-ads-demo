@@ -188,7 +188,7 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
         style={{ animation: 'modalIn 0.2s ease' }}
       >
         <div
-          className="px-7 pt-7 pb-5 text-[#10231D] text-center"
+          className="rounded-t-2xl px-7 pt-7 pb-5 text-[#10231D] text-center"
           style={{ background: 'linear-gradient(180deg, #EAF8F1 0%, #F5FCF8 100%)', borderBottom: '1px solid rgba(0, 168, 112, 0.10)' }}
         >
           <button
@@ -206,21 +206,12 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
           <div className="inline-flex items-center justify-center mb-5">
             <QRCodeSVG size={190} />
           </div>
-          <div className="flex items-center justify-center gap-2 mb-5">
+          <div className="flex items-center justify-center gap-2 mb-0">
             <span className="text-gray-400 text-[12px]">WeChat</span>
             <span className="font-semibold text-gray-900 text-[13px] bg-gray-100 px-3 py-1 rounded-full tracking-wide">
               {WEIXIN_ID}
             </span>
           </div>
-          <a
-            href={WEIXIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-white text-[14px] font-semibold transition-all hover:opacity-90 active:scale-[0.98]"
-            style={{ background: '#00A870' }}
-          >
-            Open WeChat and Add a Consultant
-          </a>
         </div>
 
         <div className="pb-5 text-center text-[11px] text-gray-400">
@@ -459,9 +450,9 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
 
             <h1
               className="font-semibold leading-[1.1] mb-4 text-[34px] md:text-[40px] lg:text-[54px]"
-              style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', overflowWrap: 'anywhere' }}
+              style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', overflowWrap: 'break-word' }}
             >
-              OPT Clock Ticking?<br></br><span className="whitespace-nowrap"> <span style={{ color: GREEN }}>Don’t Job Hunt Alone.</span></span>
+              OPT Clock Ticking?<br /><span style={{ color: GREEN }}>Don’t Job Hunt Alone.</span>
              
             </h1>
 
@@ -469,7 +460,7 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
              Built for CPT and OPT students who need sharper direction, stronger materials, faster interviews, and a job-search plan that respects the visa timeline.
             </p>
 
-            <div className="mb-4 md:mb-5">
+            <div className="mb-4">
               <button
                 onClick={onCTA}
                 className="inline-flex h-12 items-center justify-center rounded-[10px] px-8 text-[15px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00A870]"
@@ -1559,7 +1550,7 @@ function MobileBar({ onCTA }: { onCTA: () => void }) {
         className="w-full h-12 rounded-[10px] text-white text-[15px] font-semibold transition-all active:scale-[0.98]"
         style={{ background: '#00A870' }}
       >
-        Book a Free Consultation
+        Open WeChat for Free Assessment
       </button>
     </div>
   );

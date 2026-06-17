@@ -166,7 +166,7 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
             <X size={14} />
           </button>
           <div className="mb-2.5 text-[10px] font-medium uppercase tracking-[0.14em] opacity-50">蔓藤教育 MentorX</div>
-          <h3 className="mb-1.5 text-[20px] font-semibold">扫码领取专属求职规划</h3>
+          <h3 className="mb-2 text-[20px] font-semibold leading-snug">扫码<span className="mx-1 inline-flex -translate-y-px items-center rounded-full bg-[#DFF5EC] px-2.5 py-0.5 text-[#00A870] shadow-[inset_0_0_0_1px_rgba(0,168,112,0.12)]">免费领取</span>专属求职规划</h3>
           <p className="text-[13px] leading-relaxed opacity-70">获取岗位方向判断、简历建议与下一步策略</p>
         </div>
 
@@ -174,21 +174,12 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
           <div className="mb-5 inline-flex items-center justify-center">
             <QRCodeSVG size={190} />
           </div>
-          <div className="mb-5 flex items-center justify-center gap-2">
+          <div className="mb-0 flex items-center justify-center gap-2">
             <span className="text-[12px] text-gray-400">微信号</span>
             <span className="rounded-full bg-gray-100 px-3 py-1 text-[13px] font-semibold tracking-wide text-gray-900">
               {WEIXIN_ID}
             </span>
           </div>
-          <a
-            href={WEIXIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex h-11 w-full items-center justify-center gap-2 rounded-xl text-[14px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.98]"
-            style={{ background: '#00A870' }}
-          >
-            打开微信，添加顾问
-          </a>
         </div>
 
         <div className="pb-5 text-center text-[11px] text-gray-400">

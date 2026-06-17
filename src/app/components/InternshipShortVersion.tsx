@@ -188,7 +188,7 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
         style={{ animation: 'modalIn 0.2s ease' }}
       >
         <div
-          className="px-7 pt-7 pb-5 text-[#10231D] text-center"
+          className="rounded-t-2xl px-7 pt-7 pb-5 text-[#10231D] text-center"
           style={{ background: 'linear-gradient(180deg, #EAF8F1 0%, #F5FCF8 100%)', borderBottom: '1px solid rgba(0, 168, 112, 0.10)' }}
         >
           <button
@@ -198,7 +198,7 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
             <X size={14} />
           </button>
           <div className="text-[10px] font-medium tracking-[0.14em] opacity-50 mb-2.5 uppercase">蔓藤教育 MentorX</div>
-          <h3 className="text-[20px] font-semibold mb-1.5">扫码领取专属求职规划</h3>
+          <h3 className="mb-2 text-[20px] font-semibold leading-snug">扫码<span className="mx-1 inline-flex -translate-y-px items-center rounded-full bg-[#DFF5EC] px-2.5 py-0.5 text-[#00A870] shadow-[inset_0_0_0_1px_rgba(0,168,112,0.12)]">免费领取</span>专属求职规划</h3>
           <p className="text-[13px] opacity-70 leading-relaxed">获取最新岗位资源、简历建议与求职时间线</p>
         </div>
 
@@ -206,21 +206,12 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
           <div className="inline-flex items-center justify-center mb-5">
             <QRCodeSVG size={190} />
           </div>
-          <div className="flex items-center justify-center gap-2 mb-5">
+          <div className="flex items-center justify-center gap-2 mb-0">
             <span className="text-gray-400 text-[12px]">微信号</span>
             <span className="font-semibold text-gray-900 text-[13px] bg-gray-100 px-3 py-1 rounded-full tracking-wide">
               {WEIXIN_ID}
             </span>
           </div>
-          <a
-            href={WEIXIN_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full h-11 rounded-xl text-white text-[14px] font-semibold transition-all hover:opacity-90 active:scale-[0.98]"
-            style={{ background: '#00A870' }}
-          >
-            打开微信，添加顾问
-          </a>
         </div>
 
         <div className="pb-5 text-center text-[11px] text-gray-400">
@@ -459,17 +450,17 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
 
             <h1
               className="font-semibold leading-[1.1] mb-4 text-[34px] md:text-[40px] lg:text-[54px]"
-              style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', overflowWrap: 'anywhere' }}
+              style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', overflowWrap: 'break-word' }}
             >
               <span className="block">假期实习还没着落？</span>
-              <span className="block whitespace-nowrap" style={{ color: GREEN }}>别再一个人单打独斗了。</span>
+              <span className="block" style={{ color: GREEN }}>别再一个人单打独斗了。</span>
             </h1>
 
             <p className="hidden text-[16px] leading-relaxed mb-4 max-w-[19rem] sm:max-w-md md:block" style={{ color: INK_MUTED, overflowWrap: 'anywhere' }}>
               暑假不是一段可以随便浪费的空白时间。MentorX 帮留学生匹配 海外实习、远程实习、暑期项目与背景提升路径，同步推进简历优化、申请策略和面试准备。
             </p>
 
-            <div className="mb-4 md:mb-5">
+            <div className="mb-4">
               <button
                 onClick={onCTA}
                 className="inline-flex h-12 items-center justify-center rounded-[10px] px-8 text-[15px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00A870]"
@@ -1578,7 +1569,7 @@ function MobileBar({ onCTA }: { onCTA: () => void }) {
         className="w-full h-12 rounded-[10px] text-white text-[15px] font-semibold transition-all active:scale-[0.98]"
         style={{ background: '#00A870' }}
       >
-        免费咨询
+        打开微信，领取诊断
       </button>
     </div>
   );
