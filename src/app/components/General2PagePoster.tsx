@@ -277,9 +277,9 @@ export function General2PagePoster() {
       <section className="relative overflow-hidden px-5 pb-6 sm:px-8" style={{ background: CANVAS }}>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,rgba(0,168,112,0.06),transparent_32%),radial-gradient(circle_at_86%_8%,rgba(127,196,163,0.1),transparent_30%)]" />
         <div className="relative mx-auto flex h-24 max-w-6xl items-center justify-between">
-          <a href="https://mentorx.net" aria-label="前往 MentorX 主站" className="inline-flex items-center">
+          <div className="inline-flex items-center">
             <img src={logoImg} alt="蔓藤教育 MentorX" width={540} height={326} className="h-10 w-auto object-contain" />
-          </a>
+          </div>
           <div className="flex items-center gap-4">
             <Button onClick={openCTA}>免费领取求职诊断</Button>
           </div>

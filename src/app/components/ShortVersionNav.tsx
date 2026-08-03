@@ -33,9 +33,9 @@ export function ShortVersionNav({ onCTA, langHref, langLabel, ctaLabel = '免费
       }}
     >
       <div className="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
-        <a href="https://mentorx.net" aria-label="前往 MentorX 主站" className="inline-flex items-center">
+        <div className="inline-flex items-center">
           <img src={logoImg} alt="蔓藤教育 MentorX" width={540} height={326} className="h-10 w-auto object-contain" />
-        </a>
+        </div>
 
         <div className="flex items-center gap-2">
           {langHref && langLabel ? (
