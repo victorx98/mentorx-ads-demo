@@ -1476,9 +1476,9 @@ function NavBar({ onCTA }: { onCTA: () => void }) {
       }}
     >
       <div className="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between">
-        <a href="https://mentorx.net" aria-label="Go to MentorX main website" className="inline-flex items-center">
+        <div className="inline-flex items-center">
           <img src={logoImg} alt="MentorX Education" width={540} height={326} className="h-10 w-auto object-contain" />
-        </a>
+        </div>
 
         <div className="hidden md:flex items-center gap-8 text-[14px] text-gray-500 font-normal">
           {NAV_ITEMS.map(({ id, label }) => {

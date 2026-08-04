@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, type CSSProperties, type ReactNode } from 'react';
-import { X, MessageCircle, Check, Clock, Users, TrendingUp, Building2 } from 'lucide-react';
+import {
+  X, MessageCircle, Check, Clock, Users, TrendingUp, Building2,
+  UserCheck, Bot, Filter, FileText, Send, BarChart3, Share2, Inbox,
+} from 'lucide-react';
 import logoImg from '../../imports/mentorx-logo.svg';
 import wechatQrImg from '../../imports/wechat-qr.svg';
-import studentImg from '../../imports/shutterstock_2553528401.webp';
-import heroBannerImg from '../../imports/banner1.webp';
+import heroBannerImg from '../../imports/general-2pageposter-hero.webp';
 import { getLatestCtaSource, trackCTAIntent, trackQrModalEngaged, trackQrModalOpen } from '../analytics';
 
 const WEIXIN_URL = 'https://work.weixin.qq.com/ca/cawcdefad5934f25ca';
@@ -24,129 +26,191 @@ const COMPANY_LOGOS = [
   { name: 'Google', src: new URL('../../assets/company-logos-green/Google_2015_logo.svg', import.meta.url).href },
   { name: 'Meta', src: new URL('../../assets/company-logos-green/Meta_Platforms-Logo.wine.svg', import.meta.url).href },
   { name: 'Amazon', src: new URL('../../assets/company-logos-green/Amazon_(company)-Logo.wine.svg', import.meta.url).href },
-  //{ name: 'Apple', src: new URL('../../assets/company-logos-green/Apple_logo_green.png', import.meta.url).href },
-  //{ name: 'JPMorgan Chase', src: new URL('../../assets/company-logos-green/JPMorgan_Chase-Logo.wine.svg', import.meta.url).href },
   { name: 'Goldman Sachs', src: new URL('../../assets/company-logos-green/Goldman_Sachs_logo.svg', import.meta.url).href },
-  //{ name: 'McKinsey', src: new URL('../../assets/company-logos-green/McKinsey_and_Company_Logo_1.svg', import.meta.url).href },
   { name: 'BCG', src: new URL('../../assets/company-logos-green/Boston_Consulting_Group_2020_logo.svg', import.meta.url).href },
   { name: 'NVIDIA', src: new URL('../../assets/company-logos-green/NVIDIA_logo.svg', import.meta.url).href },
   { name: 'IBM', src: new URL('../../assets/company-logos-green/IBM_logo.svg', import.meta.url).href },
   { name: 'Intel', src: new URL('../../assets/company-logos-green/Intel_logo_2023.svg', import.meta.url).href },
   { name: 'TikTok', src: new URL('../../assets/company-logos-green/TikTok-Logomark&Wordmark-Logo.wine.svg', import.meta.url).href },
-  //{ name: 'Tesla', src: new URL('../../assets/company-logos-green/Tesla_Motors_green.png', import.meta.url).href },
-  //{ name: 'Uber', src: new URL('../../assets/company-logos-green/Uber_logo_2018.svg', import.meta.url).href },
   { name: 'Walmart', src: new URL('../../assets/company-logos-green/Walmart_logo_(2025;_Alt).svg', import.meta.url).href },
-  //{ name: 'Bank of America', src: new URL('../../assets/company-logos-green/Bank_of_America-Logo.wine.svg', import.meta.url).href },
   { name: 'KPMG', src: new URL('../../assets/company-logos-green/KPMG_blue_logo.svg', import.meta.url).href },
   { name: 'EY', src: new URL('../../assets/company-logos-green/EY_logo_2019.svg', import.meta.url).href },
-  //{ name: 'Discover', src: new URL('../../assets/company-logos-green/Discover_Card_logo.svg', import.meta.url).href },
   { name: 'Intuit', src: new URL('../../assets/company-logos-green/Intuit_Logo.svg', import.meta.url).href },
 ];
 
+const PAIN_POINTS = [
+  { icon: Clock, title: '每天几小时填表', desc: '重复填同样的信息，投出去全是已读不回。' },
+  { icon: Filter, title: '岗位根本不匹配', desc: '自己搜到的要么不 sponsor，要么和背景对不上。' },
+  { icon: FileText, title: '简历改了很多版', desc: '还是不知道问题出在哪一句、哪一段。' },
+  { icon: Inbox, title: '面试时间被吃掉', desc: '刷题和面试准备的时间，全被海投占满了。' },
+];
 
 const STATS = [
   { id: 'years',     target: 11,    suffix: '年+',  label: '海外求职服务经验' },
   { id: 'students',  target: 33000, suffix: '+',    label: '累计服务学员',     thousands: true },
-  { id: 'rate',      target: 95,    suffix: '%',    label: '学员上岸成功率约' },
-  { id: 'resources', target: 2800,  suffix: '+',    label: '合作企业与导师资源', thousands: true },
+  { id: 'rate',      target: 94,    suffix: '%',    label: 'EdAIX 岗位匹配准确率' },
+  { id: 'resources', target: 4200,  suffix: '+',    label: '中美合作岗位资源', thousands: true },
 ];
 
-const PAIN_POINTS = [
+const FLOW_STEPS = [
   {
-    n: '01', title: '方向不明确',
-    desc: '不清楚适合科技、金融、咨询还是回国，方向感模糊。',
-    solution: '职业测评 + 背景评估 + 差距分析，明确行业、岗位与求职路径。',
+    n: '01', icon: FileText, title: '交一份基础简历',
+    desc: '不需要提前改好。把现在这版发给我们，导师先看问题在哪。',
   },
   {
-    n: '02', title: '经历不充分',
-    desc: '缺少海外实习经历和可展示的实际项目。',
-    solution: '匹配导师项目与实习机会，补充目标岗位相关的实践经历。',
+    n: '02', icon: UserCheck, title: '真人 + AI 双轨精修',
+    desc: '行业导师逐句改内容逻辑，EdAIX 同步做 ATS 评分与关键词补全。',
   },
   {
-    n: '03', title: '简历竞争力弱',
-    desc: '经历不少，但难以清晰呈现与岗位匹配的价值。',
-    solution: '梳理亮点、量化成果、优化叙事，让简历更贴近雇主关注点。',
+    n: '03', icon: Filter, title: '精准岗位筛选',
+    desc: '只投和你背景、签证、目标真正 match 的岗位，不做无效海投。',
   },
   {
-    n: '04', title: '投递没有回音',
-    desc: '海投无回应，不清楚问题出在哪个环节。',
-    solution: '制定目标清单与投递节奏，结合内推资源和阶段复盘提高转化。',
+    n: '04', icon: Send, title: '定制化代投',
+    desc: '每一份投递针对该岗位 JD 微调简历，不是一份简历投到底。',
   },
   {
-    n: '05', title: '面试表现不稳',
-    desc: 'Technical、Behavioral 或 Case 面试准备不够系统。',
-    solution: '安排行业导师 Mock Interview，系统训练回答框架与表达方式。',
+    n: '05', icon: BarChart3, title: '每日投递日报',
+    desc: '投了哪些岗位、进展如何，每天准时同步，过程完全透明。',
   },
   {
-    n: '06', title: '身份时间线紧',
-    desc: 'CPT / OPT / H1B 时间窗口紧，需要提前统筹规划。',
-    solution: '结合毕业时间与身份状态，规划实习、全职、H1B 的优先级与时间表。',
+    n: '06', icon: Share2, title: '按需内推加速',
+    desc: '匹配到高契合岗位时，走企业导师内推通道，跳过简历初筛。',
   },
 ];
 
+const HUMAN_TRACK = {
+  icon: UserCheck,
+  name: '真人改简历',
+  tagline: '行业导师逐句改，不是模板套用',
+  items: [
+    { title: '目标岗位对齐', desc: '先确定投什么岗，再决定简历强调什么——顺序不能反。' },
+    { title: '经历重写与量化', desc: '把「做过什么」改成「带来了什么结果」，补上可信的数字。' },
+    { title: '一对一逐句过', desc: '做过该岗位招聘的导师，按真实筛简历的标准给意见。' },
+  ],
+};
 
+const AI_TRACK = {
+  icon: Bot,
+  name: 'AI 改简历',
+  tagline: '与 EdAIX 深度合作，ATS 友好',
+  items: [
+    { title: 'ATS 评分与体检', desc: '格式、字段、可解析度逐项检查，避免机器直接筛掉。' },
+    { title: 'JD Gap 分析', desc: '拿你的简历对比目标 JD，指出缺哪些关键词与能力项。' },
+    { title: '按岗位自动定制', desc: '每投一个岗位生成一版针对性简历，效率是手改的数倍。' },
+  ],
+};
+
+const EDAIX_FEATURES = [
+  { title: 'Job Agent 岗位匹配', desc: '按背景、签证与目标岗位自动筛选，官方口径 94% 匹配准确率。' },
+  { title: '简历评分 + 改写建议', desc: '内容强度、格式、清晰度逐项打分，给出可直接采纳的改写。' },
+  { title: 'JD 差距分析', desc: '简历与目标岗位逐条比对，明确还差哪些关键词和技能。' },
+  { title: '投递效率提升', desc: '定制化简历自动生成，官方口径投递速度提升约 3 倍。' },
+];
+
+const INCLUDED = [
+  '精准岗位筛选 — 只投 match 你背景的岗位',
+  '简历精修优化 — 每份投递针对岗位微调',
+  '每日投递追踪 — 投递日报准时送达',
+  '数量质量双保险 — 不靠堆数量刷存在感',
+  '按需内推 — 高契合岗位走企业导师通道',
+  'ATS 体检 — EdAIX 评分与关键词补全',
+  '面试进展跟进 — 有回音后继续陪跑',
+];
+
+const FIT_TAGS = ['投了上百份没回音', '不确定岗位该怎么选', '简历改到第 8 版还没底', 'OPT / 校招时间紧', '想把时间留给刷题面试'];
 
 const TESTIMONIALS = [
   {
-    quote: '导师帮我重新梳理经历，也针对面试做了很多复盘。之前自己准备觉得还好，但和导师聊完才发现很多表达其实没有体现出真正的价值点。',
-    name: 'Jess W.',
-    tag: 'CMU 计算机 → Google SWE',
-    accent: false,
+    quote: '之前每天花三小时填表，投了两百多份只有两个回音。交给导师之后我只管准备面试，第三周就开始约面了。',
+    name: 'Yiran C.',
+    tag: 'NYU 商业分析 → Amazon BA',
   },
   {
-    quote: 'OPT 时间很紧时，我需要的不是泛泛建议，而是具体判断。蔓藤顾问帮我快速定位了高匹配度的岗位方向，让我集中精力在最有可能的路径上。',
-    name: 'Michael L.',
-    tag: 'Columbia 金融 → JPMorgan',
-    accent: true,
-  },
-  {
-    quote: '我原来觉得自己经历太普通，后来通过项目和简历调整，终于知道怎么把自己的优势讲出来。最后拿到 offer 的那一刻，感觉整个过程的努力都值了。',
-    name: 'Yiwei Z.',
-    tag: 'UCLA 商科 → Deloitte',
-    accent: false,
-  },
-  {
-    quote: '从找不到方向到最终拿到咨询 offer，蔓藤帮我把所有模糊的感觉变成了具体可操作的步骤。整个过程比我预想的有序得多。',
-    name: 'Linda C.',
-    tag: 'NYU 金融 → McKinsey',
-    accent: false,
-  },
-  {
-    quote: 'Mock interview 做了很多轮，导师对每一轮都有详细反馈。最后面试时状态比之前稳多了，自己也感觉得出来准备是真的到位了。',
+    quote: '最有用的不是代投，是导师告诉我简历里哪几句话其实在减分。改完之后同样的岗位，回复率完全不一样。',
     name: 'Kevin H.',
-    tag: 'UT Austin 计算机 → Amazon SDE',
-    accent: true,
+    tag: 'UT Austin 计算机 → Intuit SDE',
   },
   {
-    quote: '一开始对数据岗完全没有头绪，导师帮我厘清了 DA 和 DS 的区别，还针对 SQL 和 case study 做了专项训练。整个准备过程非常有节奏感。',
+    quote: 'ATS 评分那一步很直观，我才知道自己的 PDF 有一半内容机器根本读不出来。',
     name: 'Tina X.',
     tag: 'UIUC 统计 → Meta Data Analyst',
-    accent: false,
   },
   {
-    quote: '导师是真正做过校招的人，给的建议非常落地。从 target list 到 networking 再到 offer 谈判，每一步都有具体指导，不是泛泛而谈。',
-    name: 'Brian W.',
-    tag: 'USC 商科 → BCG Associate',
-    accent: false,
+    quote: '每天的投递日报让我很安心，知道钱花在哪、进度到哪，不是丢进一个黑箱。',
+    name: 'Michael L.',
+    tag: 'Columbia 金融 → JPMorgan',
   },
   {
-    quote: '我的背景在转行，导师帮我把过去的经历重新包装，挖掘出了很多我自己没意识到的亮点。最终拿到 offer 时，连我自己都觉得意外。',
+    quote: '筛岗位这件事真的需要经验。导师直接把不 sponsor 的岗位排掉，省了我大量时间。',
     name: 'Chloe M.',
     tag: 'Duke 公共政策 → Microsoft PM',
-    accent: false,
   },
 ];
 
+const MENTORS = [
+  {
+    name: 'Dijkstra W.', title: 'Google Tech Lead', company: 'Google', years: '5年+',
+    strength: '首席SDE，参与简历初筛与面试', coaching: 'SDE 简历、项目描述重写', color: '#4285F4',
+  },
+  {
+    name: 'Kevin L.', title: 'McKinsey Senior Associate', company: 'McKinsey', years: '6年+',
+    strength: '战略咨询，McKinsey 招聘官经验', coaching: '咨询简历、Case 经历包装', color: '#003B71',
+  },
+  {
+    name: 'Crystal Z.', title: 'Morgan Stanley FICC VP', company: 'Morgan Stanley', years: '6年+',
+    strength: '推动量化策略与投资决策', coaching: '金融简历、量化经历呈现', color: '#0076CF',
+  },
+  {
+    name: 'George Z.', title: 'Amazon Data Scientist', company: 'Amazon', years: '4年',
+    strength: '数据岗简历筛选与面试', coaching: '数据岗简历、SQL 项目描述', color: '#FF9900',
+  },
+  {
+    name: 'Sophia R.', title: 'Meta Product Manager', company: 'Meta', years: '4年',
+    strength: '跨职能产品负责人', coaching: 'PM 简历、产品经历重构', color: '#0866FF',
+  },
+  {
+    name: 'Hang Y.', title: 'TikTok Software Engineer', company: 'TikTok', years: '7年',
+    strength: '前 Google 工程师，参与校园招聘', coaching: '技术简历、算法项目梳理', color: '#010101',
+  },
+  {
+    name: 'Michael T.', title: 'JPMorgan Quant Analyst', company: 'JPMorgan', years: '8年+',
+    strength: '量化金融、金融工程背景', coaching: '量化简历、技术经历量化', color: '#003087',
+  },
+  {
+    name: 'Linda C.', title: 'Deloitte Senior Consultant', company: 'Deloitte', years: '5年',
+    strength: '审计与管理咨询，Big4 校招经验', coaching: 'Big4 简历、实习经历优化', color: '#86BC25',
+  },
+  {
+    name: 'Pengfei X.', title: 'IBM Principal Consultant', company: 'IBM', years: '20年+',
+    strength: '大型系统与项目管理经验', coaching: '转行简历、跨领域经历翻译', color: '#006699',
+  },
+  {
+    name: 'Anna Z.', title: 'Apple SWE Program Manager', company: 'Apple', years: '5年',
+    strength: '前 Tesla，跨团队协作经验', coaching: '项目管理简历、成果量化', color: '#1d1d1f',
+  },
+];
 
-
+const MENTOR_COMPANY_LOGOS: Record<string, string> = {
+  Google: new URL('../../assets/mentor-company-logos-svg/Google__G__logo.svg', import.meta.url).href,
+  'Morgan Stanley': new URL('../../assets/mentor-company-logos-svg/Morgan_Stanley_Logo_1.svg', import.meta.url).href,
+  IBM: new URL('../../assets/mentor-company-logos-svg/IBM_Logo_1967-1972.svg', import.meta.url).href,
+  TikTok: new URL('../../assets/mentor-company-logos-svg/Tiktok_logo_text.svg', import.meta.url).href,
+  Amazon: new URL('../../assets/mentor-company-logos-svg/Amazon_2024.svg.png', import.meta.url).href,
+  Apple: new URL('../../assets/mentor-company-logos-svg/Apple_logo_black.svg', import.meta.url).href,
+  McKinsey: new URL('../../assets/mentor-company-logos-svg/McKinsey_Script_Mark_2019.svg', import.meta.url).href,
+  Meta: new URL('../../assets/mentor-company-logos-svg/Meta_Platforms_Inc._logo_(cropped).svg', import.meta.url).href,
+  JPMorgan: new URL('../../assets/mentor-company-logos-svg/Chase_logo_2007.svg', import.meta.url).href,
+  Deloitte: new URL('../../assets/mentor-company-logos-svg/Logo_of_Deloitte.svg', import.meta.url).href,
+};
 
 // ── QR Code ───────────────────────────────────────────────────────────────────
 
-function QRCodeSVG({ size = 140 }: { size?: number; color?: string }) {
+function QRCodeSVG({ size = 140 }: { size?: number }) {
   return (
     <img
       src={wechatQrImg}
-      alt="扫码添加蔓藤教育顾问微信，获取求职方案"
+      alt="扫码添加蔓藤教育顾问微信，获取简历诊断"
       width={size}
       height={size}
       className="block rounded-[3px] bg-white object-contain"
@@ -162,7 +226,6 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
     document.body.style.overflow = isOpen ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
-
 
   useEffect(() => {
     if (!isOpen) return;
@@ -193,12 +256,13 @@ function WeChatModal({ isOpen, onClose }: { isOpen: boolean; onClose: () => void
           <button
             onClick={onClose}
             className="absolute top-3.5 right-3.5 w-7 h-7 flex items-center justify-center rounded-full bg-[#10231D]/8 hover:bg-[#10231D]/12 text-[#10231D] transition-colors"
+            aria-label="关闭弹窗"
           >
             <X size={14} />
           </button>
           <div className="text-[10px] font-medium tracking-[0.14em] opacity-50 mb-2.5 uppercase">蔓藤教育 MentorX</div>
-          <h3 className="mb-2 text-[20px] font-semibold leading-snug">扫码<span className="mx-1 inline-flex -translate-y-px items-center rounded-full bg-[#DFF5EC] px-2.5 py-0.5 text-[#00A870] shadow-[inset_0_0_0_1px_rgba(0,168,112,0.12)]">免费领取</span>专属求职规划</h3>
-          <p className="text-[13px] opacity-70 leading-relaxed">获取最新岗位资源、简历建议与求职时间线</p>
+          <h3 className="mb-2 text-[20px] font-semibold leading-snug">扫码<span className="mx-1 inline-flex -translate-y-px items-center rounded-full bg-[#DFF5EC] px-2.5 py-0.5 text-[#00A870] shadow-[inset_0_0_0_1px_rgba(0,168,112,0.12)]">免费领取</span>简历诊断</h3>
+          <p className="text-[13px] opacity-70 leading-relaxed">导师看一眼你的简历，告诉你卡在哪一步</p>
         </div>
 
         <div className="px-7 py-6 text-center">
@@ -241,7 +305,6 @@ function Sec({
   );
 }
 
-// Section eyebrow + title + optional subtitle
 function SecHead({
   eyebrow,
   title,
@@ -249,7 +312,7 @@ function SecHead({
   center = false,
 }: {
   eyebrow?: string;
-  title: string;
+  title: ReactNode;
   sub?: string;
   center?: boolean;
 }) {
@@ -258,7 +321,7 @@ function SecHead({
       {eyebrow && (
         <div
           className="inline-flex items-center gap-2 mb-3.5 text-[13px] font-medium tracking-[0.04em]"
-          style={{ color: '#00A870' }}
+          style={{ color: GREEN }}
         >
           <span>—</span>
           {eyebrow}
@@ -296,9 +359,7 @@ function Ticker({
     <div className="overflow-hidden w-full select-none">
       <div
         className="flex w-max items-center gap-10"
-        style={{
-          animation: `${reverse ? 'tickerRight' : 'tickerLeft'} ${speed}s linear infinite`,
-        }}
+        style={{ animation: `${reverse ? 'tickerRight' : 'tickerLeft'} ${speed}s linear infinite` }}
       >
         {doubled.map((item, i) => (
           <div key={`${item.name}-${i}`} className="flex h-10 w-[85px] items-center justify-center">
@@ -315,19 +376,16 @@ function Ticker({
   );
 }
 
-
 // ── Shared: CTA button ────────────────────────────────────────────────────────
 
 function Btn({
   label,
   onClick,
-  variant = 'solid',
   size = 'md',
   className = '',
 }: {
   label: string;
   onClick: () => void;
-  variant?: 'solid' | 'outline' | 'ghost' | 'dark-outline';
   size?: 'sm' | 'md' | 'lg';
   className?: string;
 }) {
@@ -336,19 +394,12 @@ function Btn({
     md: 'h-11 px-6 text-[14px]',
     lg: 'h-12 px-8 text-[15px]',
   };
-  const variants = {
-    solid: 'text-white hover:opacity-90',
-    outline: 'border border-[#00A870] text-[#00A870] hover:bg-[#00A870]/8',
-    ghost: 'text-[#00A870] hover:bg-[#00A870]/8',
-    'dark-outline': 'border border-white/30 text-white hover:bg-white/10',
-  };
-  const solidStyle = variant === 'solid' ? { background: '#00A870' } : {};
 
   return (
     <button
       onClick={onClick}
-      className={`hidden md:inline-flex items-center justify-center rounded-[10px] font-semibold transition-all active:scale-[0.97] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00A870] ${sizes[size]} ${variants[variant]} ${className}`}
-      style={solidStyle}
+      className={`hidden md:inline-flex items-center justify-center rounded-[10px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00A870] ${sizes[size]} ${className}`}
+      style={{ background: GREEN }}
     >
       {label}
     </button>
@@ -377,7 +428,7 @@ function Badge({
         className="hero-badge-icon mt-0.5 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
         style={{ background: '#E8F5F0' }}
       >
-        <Check size={11} color="#00A870" strokeWidth={3} />
+        <Check size={11} color={GREEN} strokeWidth={3} />
       </div>
       <div>
         <div className="text-[13px] font-medium text-gray-900 leading-tight">{text}</div>
@@ -387,7 +438,7 @@ function Badge({
   );
 }
 
-// ── 1 & 2. Hero + Ticker (same background) ────────────────────────────────────
+// ── 1. Hero + Ticker ──────────────────────────────────────────────────────────
 
 function HeroSection({ onCTA }: { onCTA: () => void }) {
   const heroTargetRef = useRef(0);
@@ -431,7 +482,6 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
 
   return (
     <section style={{ background: CANVAS }}>
-      {/* Hero content */}
       <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-8 pb-6 lg:pt-12 lg:pb-8">
         <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(250px,0.86fr)] md:gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(320px,0.92fr)] lg:gap-8 items-center min-w-0">
           {/* Left: copy */}
@@ -444,51 +494,52 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
                 background: 'rgba(255,255,255,0.74)',
               }}
             >
-              留学生求职直通计划
+              简历代投 + AI 改简历
             </div>
 
             <h1
               className="font-semibold leading-[1.1] mb-4 text-[30px] md:hidden"
               style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', wordBreak: 'keep-all', overflowWrap: 'normal' }}
             >
-              <span className="whitespace-nowrap">让更多学生成功地跨越</span><br />
-              <span className="whitespace-nowrap">大学和职场的鸿沟</span>
+              <span className="whitespace-nowrap">投了上百份，</span><br />
+              <span className="whitespace-nowrap">还是<span style={{ color: GREEN }}>已读不回</span>？</span>
             </h1>
 
             <h1
               className="hidden font-semibold leading-[1.1] mb-4 md:block md:text-[36px] lg:text-[50px]"
               style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', wordBreak: 'keep-all', overflowWrap: 'normal' }}
             >
-              让更多学生成功地<span className="whitespace-nowrap">跨越</span><br />
-              大学和职场的鸿沟
+              投了上百份，<br />
+              还是<span style={{ color: GREEN }}>已读不回</span>？
             </h1>
 
             <p className="hidden text-[17px] leading-relaxed mb-5 max-w-[19rem] sm:max-w-md md:block" style={{ color: INK_MUTED, overflowWrap: 'anywhere' }}>
-              从方向定位到 Offer 决策，系统化陪跑留学生求职全程，让每一步更清晰、更高效、更有底气。
+              你缺的不是努力，是方法。真人导师精修 + EdAIX 的 ATS 优化，加上精准筛岗与定制化代投——把海投交给我们，你只管准备面试。
             </p>
 
-            <div className="mb-5 md:mb-7">
+            <div className="mb-3 md:mb-4">
               <button
                 onClick={onCTA}
                 className="inline-flex h-12 items-center justify-center rounded-[10px] px-8 text-[15px] font-semibold text-white transition-all hover:opacity-90 active:scale-[0.97] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#00A870]"
-                style={{
-                  background: '#00A870',
-                  boxShadow: '0 4px 20px rgba(0,168,112,0.3)',
-                }}
+                style={{ background: GREEN, boxShadow: '0 4px 20px rgba(0,168,112,0.3)' }}
               >
-                免费咨询
+                免费领取简历诊断
               </button>
             </div>
 
+            <p className="hidden text-[13px] font-semibold mb-6 md:block" style={{ color: INK_MUTED }}>
+              30 分钟 1V1｜导师看一眼简历，告诉你卡在哪一步
+            </p>
+
             {/* Trust row */}
             <div className="grid grid-cols-3 gap-2 text-[10px] text-gray-500 sm:flex sm:flex-wrap sm:items-center sm:justify-start sm:gap-6 sm:text-[15px]">
-              {['11年+ 服务经验', '33,000+ 学员', '95% 上岸率'].map(t => (
+              {['真人导师精修', 'ATS 评分优化', '每日投递日报'].map(t => (
                 <div
                   key={t}
                   className="flex min-w-0 items-center justify-center gap-1 rounded-[10px] border bg-white/85 px-1.5 py-2 text-center shadow-[0_8px_20px_rgba(16,35,29,0.04)] whitespace-nowrap sm:justify-start sm:gap-2 sm:border-0 sm:bg-transparent sm:p-0 sm:text-left sm:shadow-none"
                   style={{ borderColor: 'rgba(0,168,112,0.12)' }}
                 >
-                  <Check className="h-2.5 w-2.5 flex-shrink-0 sm:h-3.5 sm:w-3.5" color="#00A870" strokeWidth={2.5} />
+                  <Check className="h-2.5 w-2.5 flex-shrink-0 sm:h-3.5 sm:w-3.5" color={GREEN} strokeWidth={2.5} />
                   {t}
                 </div>
               ))}
@@ -498,19 +549,15 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
           {/* Right: image + badges */}
           <div className="order-2 flex justify-center md:justify-end min-w-0">
             <div className="relative w-full max-w-[350px] sm:max-w-[380px] md:w-[clamp(280px,38vw,420px)] md:max-w-none rounded-[16px]" style={{ boxShadow: '0 16px 48px rgba(17,24,39,0.08)' }}>
-              {/* Image */}
-              <div
-                className="relative aspect-square overflow-hidden rounded-[16px] md:aspect-[3/4]"
-                style={{ maxHeight: '520px' }}
-              >
+              <div className="relative aspect-square overflow-hidden rounded-[16px] md:aspect-[3/4]" style={{ maxHeight: '520px' }}>
                 <img
                   src={HERO_IMG}
-                  alt="自信的留学生"
-                  width={1122}
-                  height={1402}
+                  alt="留学生使用电脑整理简历与投递记录"
+                  width={1254}
+                  height={1254}
                   className="w-full h-full object-cover object-center"
                   loading="eager"
-                  fetchPriority="high"
+                  fetchpriority="high"
                   decoding="async"
                 />
                 <div
@@ -519,34 +566,32 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
                 />
               </div>
 
-              {/* Floating badges */}
-              <Badge text="11年+ 留学生求职服务经验" className="-top-3 left-0 sm:-left-8" style={heroTagStyle(-28, -0.15)} />
+              <Badge text="只投 match 你背景的岗位" className="-top-3 left-0 sm:-left-8" style={heroTagStyle(-28, -0.15)} />
               <Badge
-                text="名企导师 1v1 辅导"
-                sub="科技 · 金融 · 咨询"
+                text="每份投递针对 JD 微调"
+                sub="不是一份简历投到底"
                 className="hidden sm:flex sm:top-[28%] sm:-right-8"
                 style={heroTagStyle(26, -1.15)}
               />
-              <Badge text="OPT/H1B 就业路径建议" className="bottom-[18%] left-0 sm:-left-8" style={heroTagStyle(24, -2.05)} />
+              <Badge text="投递日报每天送达" className="bottom-[18%] left-0 sm:-left-8" style={heroTagStyle(24, -2.05)} />
 
-              {/* Offer pill */}
               <div
                 className="hero-float-badge block absolute bottom-4 right-2 sm:bottom-7 sm:-right-1 bg-white rounded-[10px] border px-3 py-2 sm:px-3.5 sm:py-2.5"
                 style={{ borderColor: HAIRLINE, boxShadow: '0 10px 28px rgba(17,24,39,0.08)', ...heroTagStyle(-22, -0.75) }}
               >
                 <div className="flex items-center gap-1.5 mb-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-[10px] font-medium text-gray-500">Offer 已到</span>
+                  <span className="text-[10px] font-medium text-gray-500">面试邀约</span>
                 </div>
-                <div className="text-[13px] font-semibold text-gray-900">Google SWE</div>
-                <div className="text-[11px] text-gray-400">New York, NY</div>
+                <div className="text-[13px] font-semibold text-gray-900">Amazon BA</div>
+                <div className="text-[11px] text-gray-400">Seattle, WA</div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Ticker — seamless part of banner */}
+      {/* Ticker */}
       <div className="max-w-6xl mx-auto px-5 sm:px-8 pb-6">
         <div className="flex items-center gap-2 text-[13px] font-medium mb-4" style={{ color: '#6b9e86' }}>
           连接高校、企业岗位与行业导师资源
@@ -557,49 +602,22 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
   );
 }
 
-function LeadCaptureSection({ onCTA }: { onCTA: () => void }) {
-  const items = [
-    {
-      title: '适合谁',
-      desc: '方向不清、缺少实习、投递没反馈、OPT/H1B 时间紧的留学生。',
-    },
-    {
-      title: '你会得到',
-      desc: '一份基于学校、专业、年级和目标岗位的求职差距诊断。',
-    },
-    {
-      title: '下一步',
-      desc: '加顾问微信，先判断当前最该补简历、项目、面试还是岗位策略。',
-    },
-  ];
+// ── 2. Pain points ────────────────────────────────────────────────────────────
 
+function PainSection() {
   return (
     <section style={{ background: CANVAS }} className="pb-10 sm:pb-12">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
-        <div className="grid lg:grid-cols-[1.1fr_0.9fr] gap-5 rounded-[16px] border bg-white p-5 sm:p-6" style={{ borderColor: HAIRLINE, boxShadow: '0 14px 44px rgba(17,24,39,0.06)' }}>
-          <div className="grid sm:grid-cols-3 gap-3">
-            {items.map((item, index) => (
-              <div key={item.title} className="rounded-[12px] border p-4" style={{ borderColor: '#ECE5DD', background: index === 1 ? '#F8FBF8' : '#FFFFFF' }}>
-                <div className="mb-3 flex h-7 w-7 items-center justify-center rounded-[8px] text-[12px] font-semibold text-white" style={{ background: GREEN }}>
-                  {index + 1}
-                </div>
-                <h3 className="mb-1.5 text-[15px] font-semibold" style={{ color: INK }}>{item.title}</h3>
-                <p className="text-[13px] leading-relaxed" style={{ color: INK_MUTED }}>{item.desc}</p>
+        <div className="grid gap-3 rounded-[16px] border bg-white p-5 sm:p-6 sm:grid-cols-2 lg:grid-cols-4" style={{ borderColor: HAIRLINE, boxShadow: '0 14px 44px rgba(17,24,39,0.06)' }}>
+          {PAIN_POINTS.map(({ icon: Icon, title, desc }) => (
+            <div key={title} className="rounded-[12px] border p-4" style={{ borderColor: '#ECE5DD' }}>
+              <div className="mb-3 grid h-10 w-10 place-items-center rounded-[10px]" style={{ background: '#EAF8F1' }}>
+                <Icon size={20} color={GREEN} />
               </div>
-            ))}
-          </div>
-          <div className="rounded-[12px] p-5 text-white" style={{ background: GREEN_DARK }}>
-            <div className="mb-2 text-[13px] font-medium" style={{ color: '#9BE5C3' }}>免费职业评估</div>
-            <h2 className="mb-3 text-[24px] font-semibold leading-tight" style={{ letterSpacing: '-0.02em' }}>先把求职卡点说清楚，再决定怎么补。</h2>
-            <p className="mb-0 text-[14px] leading-relaxed text-white/70">适合获客入口：用户不用先理解所有产品，只需要留下咨询意向，我们用评估承接转化。</p>
-            {/* <button
-              onClick={onCTA}
-              className="hidden md:block h-11 w-full rounded-[10px] bg-white px-5 text-[14px] font-semibold transition-all active:scale-[0.98]"
-              style={{ color: GREEN_DARK }}
-            >
-              立即免费评估
-            </button> */}
-          </div>
+              <h3 className="mb-1.5 text-[15px] font-semibold" style={{ color: INK }}>{title}</h3>
+              <p className="text-[13px] leading-relaxed" style={{ color: INK_MUTED }}>{desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -617,13 +635,11 @@ function useCountUp(target: number, duration = 1800, triggered: boolean) {
     }
     let raf = 0;
     let start: number | null = null;
-    const from = 0;
     const step = (ts: number) => {
       if (!start) start = ts;
       const progress = Math.min((ts - start) / duration, 1);
-      // ease-out cubic
       const eased = 1 - Math.pow(1 - progress, 3);
-      setValue(Math.round(from + (target - from) * eased));
+      setValue(Math.round(target * eased));
       if (progress < 1) raf = requestAnimationFrame(step);
     };
     raf = requestAnimationFrame(step);
@@ -635,35 +651,23 @@ function useCountUp(target: number, duration = 1800, triggered: boolean) {
 // ── 3. Stats ──────────────────────────────────────────────────────────────────
 
 function StatCard({
-  id, target, suffix, label, thousands, icon,
-  triggered,
+  target, suffix, label, thousands, icon, triggered,
 }: {
-  id: string; target: number; suffix: string; label: string;
+  target: number; suffix: string; label: string;
   thousands?: boolean; icon: ReactNode; triggered: boolean;
 }) {
   const val = useCountUp(target, 1800, triggered);
   const display = thousands ? val.toLocaleString() : String(val);
 
   return (
-    <div
-      className="flex flex-col items-center text-center px-3 py-4 sm:px-5 sm:py-6 rounded-[14px]"
-      style={{ background: 'rgba(255,255,255,0.78)' }}
-    >
-      <div
-        className="hidden w-10 h-10 rounded-[10px] items-center justify-center mb-3 sm:flex"
-        style={{ background: '#E8F5F0', color: GREEN }}
-      >
+    <div className="flex flex-col items-center text-center px-3 py-4 sm:px-5 sm:py-6 rounded-[14px]" style={{ background: 'rgba(255,255,255,0.78)' }}>
+      <div className="hidden w-10 h-10 rounded-[10px] items-center justify-center mb-3 sm:flex" style={{ background: '#E8F5F0', color: GREEN }}>
         {icon}
       </div>
-      <div
-        className="text-[26px] sm:text-[34px] font-semibold leading-none mb-1 sm:mb-2 tabular-nums"
-        style={{ color: GREEN_DARK, letterSpacing: '-0.03em' }}
-      >
+      <div className="text-[26px] sm:text-[34px] font-semibold leading-none mb-1 sm:mb-2 tabular-nums" style={{ color: GREEN_DARK, letterSpacing: '-0.03em' }}>
         {display}{suffix}
       </div>
-      <div className="text-[11px] sm:text-[12px] leading-snug" style={{ color: INK_MUTED }}>
-        {label}
-      </div>
+      <div className="text-[11px] sm:text-[12px] leading-snug" style={{ color: INK_MUTED }}>{label}</div>
     </div>
   );
 }
@@ -682,12 +686,7 @@ function StatsSection() {
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
-    const obs = new IntersectionObserver(
-      ([entry]) => {
-        setTriggered(entry.isIntersecting);
-      },
-      { threshold: 0.35 }
-    );
+    const obs = new IntersectionObserver(([entry]) => setTriggered(entry.isIntersecting), { threshold: 0.35 });
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
@@ -696,21 +695,11 @@ function StatsSection() {
     <section id="stats" ref={sectionRef} style={{ background: CANVAS }} className="py-10 sm:py-12">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
         <div className="text-center mb-6">
-          <SecHead
-            eyebrow="实力沉淀"
-            title="11年深耕，陪留学生走好职业第一步"
-            center
-            />
+          <SecHead eyebrow="实力沉淀" title="11年深耕，帮留学生把简历投到对的地方" center />
         </div>
-
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
           {STATS.map(stat => (
-            <StatCard
-              key={stat.id}
-              {...stat}
-              icon={ICONS[stat.id]}
-              triggered={triggered}
-            />
+            <StatCard key={stat.id} {...stat} icon={ICONS[stat.id]} triggered={triggered} />
           ))}
         </div>
       </div>
@@ -718,347 +707,202 @@ function StatsSection() {
   );
 }
 
-// ── 4. Pain Points ────────────────────────────────────────────────────────────
+// ── 4. Dual track: human + AI ─────────────────────────────────────────────────
 
-function PainPointsSection({ onCTA }: { onCTA: () => void }) {
+function TrackCard({ track, accent }: { track: typeof HUMAN_TRACK; accent: string }) {
+  const Icon = track.icon;
   return (
-    <Sec id="solution" bg="white">
-      <SecHead
-        eyebrow="求职挑战和方案"
-        title="从校园到职场，6 大求职挑战"
-        sub="每一项挑战，都会影响求职节奏和最终结果。蔓藤从诊断开始，帮助学生看清问题、补齐差距、稳步推进求职进程。"
-        center
-      />
-      <div className="grid auto-rows-fr sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4 md:mb-6">
-        {PAIN_POINTS.map(({ n, title, desc, solution }) => (
-          <div
-            key={n}
-            className="flex h-full flex-col rounded-[14px] border overflow-hidden transition-all hover:-translate-y-0.5"
-            style={{ borderColor: HAIRLINE, background: SURFACE }}
-          >
-            {/* Top: pain point */}
-            <div className="flex-1 px-6 pt-5 pb-3" style={{ background: SURFACE }}>
-              <div className="mb-3 flex items-baseline gap-3">
-                <span className="text-[15px] font-bold tracking-[0.08em]" style={{ color: '#00A870' }}>{n}</span>
-                <h4 className="text-[15px] font-semibold leading-snug" style={{ color: INK }}>{title}</h4>
-              </div>
-              <p className="text-[13px] leading-relaxed" style={{ color: INK_MUTED }}>{desc}</p>
-            </div>
+    <div
+      className="flex h-full flex-col rounded-[16px] border bg-white p-6 sm:p-7"
+      style={{ borderColor: HAIRLINE, boxShadow: '0 16px 40px rgba(17,24,39,0.06)' }}
+    >
+      <div className="mb-5 flex items-center gap-3">
+        <div className="grid h-11 w-11 place-items-center rounded-[12px]" style={{ background: '#EAF8F1' }}>
+          <Icon size={22} color={GREEN} />
+        </div>
+        <div>
+          <div className="text-[19px] font-semibold leading-tight" style={{ color: GREEN_DARK }}>{track.name}</div>
+          <div className="text-[13px] mt-0.5" style={{ color: accent }}>{track.tagline}</div>
+        </div>
+      </div>
 
-            {/* Divider */}
-            <div className="h-px" style={{ background: '#ECE5DD' }} />
-
-            {/* Bottom: solution */}
-            <div className="h-[112px] shrink-0 px-6 pt-3.5 pb-4" style={{ background: '#F8FBF8' }}>
-              <div
-                className="flex items-center gap-1.5 mb-2 text-[11px] font-semibold tracking-wide"
-                style={{ color: '#00A870' }}
-              >
-                <div
-                  className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0"
-                  style={{ background: '#00A870' }}
-                >
-                  <Check size={9} color="white" strokeWidth={3} />
-                </div>
-                蔓藤方案
+      <div className="space-y-3">
+        {track.items.map(item => (
+          <div key={item.title} className="rounded-[12px] border px-4 py-3.5" style={{ borderColor: '#ECE5DD', background: '#F8FBF8' }}>
+            <div className="flex items-start gap-2.5">
+              <div className="mt-0.5 w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: GREEN }}>
+                <Check size={9} color="white" strokeWidth={3} />
               </div>
-              <p className="text-[13px] leading-relaxed" style={{ color: '#315C47' }}>{solution}</p>
+              <div>
+                <div className="text-[14px] font-semibold leading-snug" style={{ color: INK }}>{item.title}</div>
+                <p className="mt-1 text-[13px] leading-relaxed" style={{ color: INK_MUTED }}>{item.desc}</p>
+              </div>
             </div>
           </div>
         ))}
       </div>
-      {/* <div className="hidden text-center mt-2 md:block">
-        <Btn label="评估我的情况" onClick={onCTA} />
-      </div> */}
-    </Sec>
+    </div>
   );
 }
 
-// ── 5. Why MentorX + Flow (combined) ─────────────────────────────────────────
-
-
-const FLOW_STEPS_NEW = [
-  { n: '01', title: '设定目标', desc: '明确国家、行业、岗位与求职时间线。' },
-  { n: '02', title: '差距分析', desc: '识别简历、技能、项目与面试短板。' },
-  { n: '03', title: '规划路径', desc: '定制阶段任务、学习重点与投递节奏。' },
-  { n: '04', title: '职业培训', desc: '通过课程、项目和导师辅导提升竞争力。' },
-  { n: '05', title: '能力测评', desc: '评估准备度，动态调整求职策略。' },
-  { n: '06', title: '岗位匹配', desc: '匹配实习、全职与内推机会。' },
-];
-
-function WhyMentorXSection({ onCTA }: { onCTA: () => void }) {
-  const imageRef = useRef<HTMLDivElement>(null);
-  const tagTargetRef = useRef(0);
-  const tagCurrentRef = useRef(0);
-  const tagVelocityRef = useRef(0);
-  const [tagProgress, setTagProgress] = useState(0);
-  const [hoveredStep, setHoveredStep] = useState<string | null>(null);
-
-  useEffect(() => {
-    let raf = 0;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    const update = () => {
-      const el = imageRef.current;
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        const viewport = window.innerHeight || 1;
-        const imageCenter = rect.top + rect.height / 2;
-        const start = viewport * 0.95;
-        const end = viewport * 0.5;
-        const raw = (start - imageCenter) / (start - end);
-        const clamped = Math.max(0, Math.min(1, raw));
-        tagTargetRef.current = Math.pow(clamped, 2.2);
-      }
-
-      if (reduceMotion) {
-        tagCurrentRef.current = tagTargetRef.current;
-      } else {
-        const distance = tagTargetRef.current - tagCurrentRef.current;
-        const spring = tagTargetRef.current > 0.72 ? 0.16 : 0.095;
-        tagVelocityRef.current = (tagVelocityRef.current + distance * spring) * 0.76;
-        tagCurrentRef.current += tagVelocityRef.current;
-        tagCurrentRef.current = Math.max(-0.04, Math.min(1.055, tagCurrentRef.current));
-      }
-
-      const nextProgress = tagCurrentRef.current;
-      setTagProgress(prev => (Math.abs(prev - nextProgress) > 0.001 ? nextProgress : prev));
-      raf = requestAnimationFrame(update);
-    };
-
-    raf = requestAnimationFrame(update);
-    return () => {
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
-  const revealFrom = (x: number, y: number): CSSProperties => {
-    const motionProgress = Math.max(-0.04, Math.min(1.055, tagProgress));
-    const visibleProgress = Math.max(0, Math.min(1, tagProgress));
-    const distance = 1 - motionProgress;
-    return {
-      opacity: visibleProgress * 0.94,
-      transform: `translate3d(${x * distance}px, ${y * distance}px, 0)`,
-      willChange: "opacity, transform",
-    };
-  };
-
+function DualTrackSection() {
   return (
-    <Sec id="flow" bg={MINT_BAND} className="scroll-mt-16">
-      <div className="grid items-center gap-8 lg:grid-cols-[1fr_1fr]">
+    <Sec id="dual-track" bg={MINT_BAND} className="scroll-mt-16">
+      <SecHead
+        eyebrow="双轨改简历"
+        title="真人改内容，AI 改格式，两件事都要做对"
+        sub="AI 能让机器读懂你的简历，但只有做过该岗位招聘的人，才知道招聘方到底在找什么。两者缺一不可。"
+        center
+      />
 
-        {/* Left: image with floating badges */}
-        <div className="relative order-2 hidden justify-center lg:order-1 lg:flex lg:justify-start lg:self-center">
-          <div ref={imageRef} className="relative w-full max-w-[380px]">
-            <div className="rounded-[16px] overflow-hidden" style={{ height: 500, background: SURFACE }}>
-              <img src={studentImg} alt="留学生求职" className="w-full h-full object-cover" style={{ objectPosition: '80% center' }} />
-            </div>
+      <div className="grid items-stretch gap-4 lg:grid-cols-[1fr_auto_1fr]">
+        <TrackCard track={HUMAN_TRACK} accent="#3E7CB1" />
 
-            {/* Floating stat badges */}
-            <div className="absolute -top-3 -right-3 sm:-right-8 bg-white/95 rounded-[12px] border px-3.5 py-2.5 flex items-center gap-2.5"
-              style={{ borderColor: HAIRLINE, backdropFilter: 'blur(10px)', ...revealFrom(260, -180) }}>
-              <div className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0" style={{ background: '#E8F5F0' }}>
-                <Check size={11} color="#00A870" strokeWidth={3} />
-              </div>
-              <div className="text-[13px] font-medium text-gray-900">从规划到 Offer，全程陪跑</div>
-            </div>
-
-            <div className="absolute bottom-[22%] -left-2 sm:-left-10 bg-white/95 rounded-[12px] border px-3.5 py-2.5"
-              style={{ borderColor: HAIRLINE, backdropFilter: 'blur(10px)', ...revealFrom(-240, 72) }}>
-              <div className="text-[11px] text-gray-400 mb-0.5">累计服务学员</div>
-              <div className="text-[18px] font-bold" style={{ color: '#00A870' }}>33,000+</div>
-            </div>
-
-            <div className="absolute bottom-4 right-0 sm:-right-6 bg-white rounded-[12px] border px-3.5 py-2.5" style={{ borderColor: HAIRLINE, ...revealFrom(230, 150) }}>
-              <div className="flex items-center gap-1.5 mb-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-                <span className="text-[10px] font-medium text-gray-500">上岸成功率</span>
-              </div>
-              <div className="text-[18px] font-bold" style={{ color: '#0D2E1E' }}>95%</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Right: header + vertical timeline */}
-        <div className="order-1 lg:order-2">
-          <div className="mb-5">
-            <div className="inline-flex items-center gap-2 mb-2.5 text-[13px] font-medium tracking-[0.04em]" style={{ color: GREEN }}>
-              <span>—</span>
-              为什么选择蔓藤
-              <span>—</span>
-            </div>
-            <h2 className="text-[30px] sm:text-[34px] font-semibold mb-3 leading-tight" style={{ color: INK, letterSpacing: '-0.03em' }}>
-              从规划到 Offer，<br />陪你走完整个求职周期
-            </h2>
-            <p className="text-[14px] leading-relaxed" style={{ color: INK_MUTED }}>
-              系统化、个性化、数据驱动，打造专属你的求职成长路径。
-            </p>
-          </div>
-
-          {/* Timeline steps — wrapped in white card */}
+        <div className="flex items-center justify-center py-2 lg:py-0">
           <div
-            className="flex w-full max-w-[520px] rounded-[16px] border px-5 py-4"
-            style={{ background: SURFACE, borderColor: HAIRLINE }}
+            className="grid h-[128px] w-[128px] place-items-center rounded-full border text-center"
+            style={{ background: GREEN_DARK, borderColor: 'rgba(0,168,112,0.35)', boxShadow: '0 18px 46px rgba(13,46,30,0.18)' }}
           >
-            <div className="relative my-auto w-full">
-              <div
-                className="absolute left-[18px] top-[18px] bottom-[18px] w-px"
-                style={{ background: 'rgba(0,168,112,0.18)' }}
-              />
-            {FLOW_STEPS_NEW.map(({ n, title, desc }) => (
-              <div
-                key={n}
-                className="group relative grid grid-cols-[36px_1fr] items-center gap-4 py-2.5"
-                onMouseEnter={() => setHoveredStep(n)}
-                onMouseLeave={() => setHoveredStep(null)}
-              >
-                <div
-                  className="z-10 flex h-9 w-9 items-center justify-center rounded-full text-[12px] font-bold transition-colors duration-200"
-                  style={{
-                    background: hoveredStep === n ? '#0D2E1E' : 'white',
-                    color: hoveredStep === n ? 'white' : '#00A870',
-                    border: `2px solid ${hoveredStep === n ? '#0D2E1E' : '#00A870'}`,
-                  }}
-                >
-                  {n}
-                </div>
-                <div>
-                  <div className="text-[14px] font-semibold leading-snug" style={{ color: INK }}>{title}</div>
-                  <div className="text-[12px] mt-0.5 leading-relaxed" style={{ color: INK_MUTED }}>{desc}</div>
-                </div>
-              </div>
-            ))}
+            <div>
+              <div className="text-[26px] font-semibold leading-none" style={{ color: '#7FF0BE' }}>+</div>
+              <div className="mt-1.5 text-[15px] font-semibold leading-tight text-white">真人<br />× AI</div>
+              <div className="mt-1 text-[11px]" style={{ color: '#9BE5C3' }}>双轨精修</div>
             </div>
           </div>
-
-          {/* <div className="hidden mt-6 md:block">
-            <Btn label="了解方案" onClick={onCTA} />
-          </div> */}
         </div>
 
+        <TrackCard track={AI_TRACK} accent="#B0564F" />
       </div>
     </Sec>
   );
 }
 
-// ── 6. Mentor Section ─────────────────────────────────────────────────────────
+// ── 5. EdAIX partnership ──────────────────────────────────────────────────────
 
-const MENTORS = [
-  {
-    name: 'Dijkstra W.',
-    title: 'Google Tech Lead',
-    company: 'Google',
-    years: '5年+',
-    strength: '首席SDE，OA / 面试全流程',
-    coaching: 'SDE技术面试、项目复盘',
-    initials: 'DW',
-    color: '#4285F4',
-  },
-  {
-    name: 'Crystal Z.',
-    title: 'Morgan Stanley FICC VP',
-    company: 'Morgan Stanley',
-    years: '6年+',
-    strength: '推动量化策略与投资决策',
-    coaching: '案例面试、投资分析',
-    initials: 'CZ',
-    color: '#0076CF',
-  },
-  {
-    name: 'Pengfei X.',
-    title: 'IBM Principal Consultant',
-    company: 'IBM',
-    years: '20年+',
-    strength: '大型系统与项目管理经验',
-    coaching: '咨询面试、商业分析',
-    initials: 'PX',
-    color: '#006699',
-  },
-  {
-    name: 'Hang Y.',
-    title: 'TikTok Software Engineer',
-    company: 'TikTok',
-    years: '7年',
-    strength: '前Google工程师，参与校园招聘',
-    coaching: '算法、系统设计',
-    initials: 'HY',
-    color: '#010101',
-  },
-  {
-    name: 'George Z.',
-    title: 'Amazon Data Scientist',
-    company: 'Amazon',
-    years: '4年',
-    strength: '数据岗目标岗位面试准备',
-    coaching: 'SQL、逻辑面试',
-    initials: 'GZ',
-    color: '#FF9900',
-  },
-  {
-    name: 'Anna Z.',
-    title: 'Apple SWE Program Manager',
-    company: 'Apple',
-    years: '5年',
-    strength: '前Tesla，跨团队协作经验',
-    coaching: '项目管理、项目复盘',
-    initials: 'AZ',
-    color: '#1d1d1f',
-  },
-  {
-    name: 'Kevin L.',
-    title: 'McKinsey Senior Associate',
-    company: 'McKinsey',
-    years: '6年+',
-    strength: '战略咨询，McKinsey招聘官经验',
-    coaching: 'Case Interview、简历润色',
-    initials: 'KL',
-    color: '#003B71',
-  },
-  {
-    name: 'Sophia R.',
-    title: 'Meta Product Manager',
-    company: 'Meta',
-    years: '4年',
-    strength: '跨职能产品负责人，擅长PM面试辅导',
-    coaching: 'PM面试、产品设计题',
-    initials: 'SR',
-    color: '#0866FF',
-  },
-  {
-    name: 'Michael T.',
-    title: 'JPMorgan Quant Analyst',
-    company: 'JPMorgan',
-    years: '8年+',
-    strength: '量化金融、金融工程面试辅导',
-    coaching: '技术面试、行为面试',
-    initials: 'MT',
-    color: '#003087',
-  },
-  {
-    name: 'Linda C.',
-    title: 'Deloitte Senior Consultant',
-    company: 'Deloitte',
-    years: '5年',
-    strength: '审计与管理咨询，Big4校招经验',
-    coaching: '案例面试、简历优化',
-    initials: 'LC',
-    color: '#86BC25',
-  },
-];
+function EdaixSection({ onCTA }: { onCTA: () => void }) {
+  return (
+    <Sec id="edaix" bg="white" className="scroll-mt-16">
+      <div className="grid items-center gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+        <div>
+          <div className="inline-flex items-center gap-2 mb-3.5 text-[13px] font-medium tracking-[0.04em]" style={{ color: GREEN }}>
+            <span>—</span>ATS 深度合作<span>—</span>
+          </div>
+          <h2 className="text-[28px] sm:text-[36px] font-semibold leading-tight mb-4" style={{ color: INK, letterSpacing: '-0.02em' }}>
+            与 <span style={{ color: GREEN }}>EdAIX</span> 深度打通，<br />让简历先过机器这一关
+          </h2>
+          <p className="text-[15px] leading-relaxed mb-6" style={{ color: INK_MUTED }}>
+            大部分公司的简历会先经过 ATS 系统筛选。EdAIX 的 Job Agent 直接接入我们的代投流程——先做匹配和评分，再由导师定稿，最后才投出去。
+          </p>
+          <div className="mb-6 grid grid-cols-2 gap-3">
+            <div className="rounded-[12px] border px-4 py-3.5" style={{ borderColor: 'rgba(0,168,112,0.16)', background: '#F2FBF7' }}>
+              <div className="text-[24px] font-semibold leading-none" style={{ color: GREEN_DARK, letterSpacing: '-0.03em' }}>94%</div>
+              <div className="mt-1.5 text-[12px]" style={{ color: INK_MUTED }}>岗位匹配准确率</div>
+            </div>
+            <div className="rounded-[12px] border px-4 py-3.5" style={{ borderColor: 'rgba(0,168,112,0.16)', background: '#F2FBF7' }}>
+              <div className="text-[24px] font-semibold leading-none" style={{ color: GREEN_DARK, letterSpacing: '-0.03em' }}>3×</div>
+              <div className="mt-1.5 text-[12px]" style={{ color: INK_MUTED }}>投递效率提升</div>
+            </div>
+          </div>
+          <Btn label="免费领取简历诊断" onClick={onCTA} />
+          <p className="mt-3 text-[12px]" style={{ color: '#9AA3A0' }}>数据为 EdAIX 平台官方口径。</p>
+        </div>
 
+        <div className="grid gap-3 sm:grid-cols-2">
+          {EDAIX_FEATURES.map(({ title, desc }) => (
+            <div
+              key={title}
+              className="rounded-[14px] border bg-white p-5 transition-all hover:-translate-y-0.5 hover:border-[#00A870]"
+              style={{ borderColor: HAIRLINE, boxShadow: '0 12px 32px rgba(17,24,39,0.05)' }}
+            >
+              <div className="mb-3 grid h-9 w-9 place-items-center rounded-[10px]" style={{ background: '#EAF8F1' }}>
+                <Bot size={18} color={GREEN} />
+              </div>
+              <h3 className="mb-1.5 text-[15px] font-semibold leading-snug" style={{ color: INK }}>{title}</h3>
+              <p className="text-[13px] leading-relaxed" style={{ color: INK_MUTED }}>{desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Sec>
+  );
+}
 
-const MENTOR_COMPANY_LOGOS: Record<string, string> = {
-  Google: new URL('../../assets/mentor-company-logos-svg/Google__G__logo.svg', import.meta.url).href,
-  'Morgan Stanley': new URL('../../assets/mentor-company-logos-svg/Morgan_Stanley_Logo_1.svg', import.meta.url).href,
-  IBM: new URL('../../assets/mentor-company-logos-svg/IBM_Logo_1967-1972.svg', import.meta.url).href,
-  TikTok: new URL('../../assets/mentor-company-logos-svg/Tiktok_logo_text.svg', import.meta.url).href,
-  Amazon: new URL('../../assets/mentor-company-logos-svg/Amazon_2024.svg.png', import.meta.url).href,
-  Apple: new URL('../../assets/mentor-company-logos-svg/Apple_logo_black.svg', import.meta.url).href,
-  McKinsey: new URL('../../assets/mentor-company-logos-svg/McKinsey_Script_Mark_2019.svg', import.meta.url).href,
-  Meta: new URL('../../assets/mentor-company-logos-svg/Meta_Platforms_Inc._logo_(cropped).svg', import.meta.url).href,
-  JPMorgan: new URL('../../assets/mentor-company-logos-svg/Chase_logo_2007.svg', import.meta.url).href,
-  Deloitte: new URL('../../assets/mentor-company-logos-svg/Logo_of_Deloitte.svg', import.meta.url).href,
-};
+// ── 6. Flow ───────────────────────────────────────────────────────────────────
+
+function FlowSection() {
+  return (
+    <Sec id="flow" bg={MINT_BAND} className="scroll-mt-16">
+      <SecHead
+        eyebrow="服务流程"
+        title="给我们一份基础简历，剩下的我们来"
+        sub="从诊断到投递到跟进，每一步都有明确交付。你唯一需要做的事，是准备面试。"
+        center
+      />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {FLOW_STEPS.map(({ n, icon: Icon, title, desc }) => (
+          <div
+            key={n}
+            className="flex h-full flex-col rounded-[14px] border bg-white p-6 transition-all hover:-translate-y-0.5 hover:border-[#00A870]"
+            style={{ borderColor: HAIRLINE }}
+          >
+            <div className="mb-5 flex items-center justify-between">
+              <div className="inline-flex rounded-full px-3.5 py-1.5 text-[13px] font-semibold" style={{ background: '#EAF8F1', color: GREEN }}>{n}</div>
+              <div className="grid h-11 w-11 place-items-center rounded-[14px]" style={{ background: '#EAF8F1' }}>
+                <Icon size={22} color={GREEN} />
+              </div>
+            </div>
+            <h3 className="text-[17px] font-semibold tracking-[-0.02em]" style={{ color: INK }}>{title}</h3>
+            <p className="mt-2.5 text-[14px] leading-relaxed" style={{ color: INK_MUTED }}>{desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <span className="mr-1 text-[15px] font-semibold" style={{ color: INK }}>适合你，如果你：</span>
+        {FIT_TAGS.map(tag => (
+          <span key={tag} className="rounded-full border bg-white px-4 py-2 text-[14px] font-medium text-gray-600 shadow-sm" style={{ borderColor: 'rgba(0,168,112,0.12)' }}>
+            {tag}
+          </span>
+        ))}
+      </div>
+    </Sec>
+  );
+}
+
+// ── 7. Included services ──────────────────────────────────────────────────────
+
+function IncludedSection({ onCTA }: { onCTA: () => void }) {
+  return (
+    <Sec id="included" bg={CANVAS} className="scroll-mt-16">
+      <div className="rounded-[16px] border bg-white p-6 sm:p-8" style={{ borderColor: 'rgba(0,168,112,0.14)', boxShadow: '0 16px 40px rgba(17,24,39,0.06)' }}>
+        <div className="grid gap-6 lg:grid-cols-[220px_1fr] lg:gap-10">
+          <div>
+            <div className="inline-flex items-center rounded-full px-4 py-2 text-[14px] font-semibold" style={{ background: GREEN_DARK, color: 'white' }}>
+              代投包含什么
+            </div>
+            <p className="mt-4 text-[14px] leading-relaxed" style={{ color: INK_MUTED }}>
+              以下内容全部包含在服务内，过程可查、进度透明。
+            </p>
+            <div className="mt-5">
+              <Btn label="咨询具体方案" onClick={onCTA} />
+            </div>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {INCLUDED.map(item => (
+              <div key={item} className="flex items-start gap-3 rounded-[12px] px-4 py-3.5 text-[14px] font-medium" style={{ background: '#F2FBF7', color: INK }}>
+                <Check size={17} color={GREEN} strokeWidth={2.6} className="mt-0.5 flex-shrink-0" />
+                <span className="leading-snug">{item}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </Sec>
+  );
+}
+
+// ── 8. Mentors ────────────────────────────────────────────────────────────────
 
 function MentorLogoAvatar({ mentor }: { mentor: typeof MENTORS[0] }) {
   const logo = MENTOR_COMPANY_LOGOS[mentor.company];
@@ -1078,12 +922,10 @@ function MentorLogoAvatar({ mentor }: { mentor: typeof MENTORS[0] }) {
     </div>
   );
 }
+
 function MentorCard({ mentor }: { mentor: typeof MENTORS[0] }) {
   return (
-    <div
-      className="group relative rounded-[14px] p-5 border border-[#DDD6CC] bg-white transition-all hover:-translate-y-0.5 hover:z-10 hover:border-[#00A870] w-full"
-    >
-      {/* Top: company logo avatar + name */}
+    <div className="group relative rounded-[14px] p-5 border border-[#DDD6CC] bg-white transition-all hover:-translate-y-0.5 hover:z-10 hover:border-[#00A870] w-full">
       <div className="flex items-start gap-3 mb-4">
         <MentorLogoAvatar mentor={mentor} />
         <div className="flex-1 min-w-0 pr-1">
@@ -1092,16 +934,14 @@ function MentorCard({ mentor }: { mentor: typeof MENTORS[0] }) {
         </div>
       </div>
 
-      {/* Divider */}
       <div className="h-px mb-3.5 bg-black/5" />
 
-      {/* Detail rows */}
       <div className="space-y-2">
         <div className="flex items-start gap-2.5">
           <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: '#E8F5F0' }}>
             <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
-              <circle cx="6" cy="6" r="5" stroke="#00A870" strokeWidth="1.5"/>
-              <path d="M6 3v3l2 1.5" stroke="#00A870" strokeWidth="1.5" strokeLinecap="round"/>
+              <circle cx="6" cy="6" r="5" stroke="#00A870" strokeWidth="1.5" />
+              <path d="M6 3v3l2 1.5" stroke="#00A870" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </div>
           <div className="text-[12px] text-gray-500 leading-snug">
@@ -1111,7 +951,7 @@ function MentorCard({ mentor }: { mentor: typeof MENTORS[0] }) {
         <div className="flex items-start gap-2.5">
           <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: '#E8F5F0' }}>
             <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
-              <path d="M6 1l1.24 3.8H11L8.38 6.8l.95 3.2L6 8.2 2.67 10l.95-3.2L1 4.8h3.76L6 1z" fill="#00A870"/>
+              <path d="M6 1l1.24 3.8H11L8.38 6.8l.95 3.2L6 8.2 2.67 10l.95-3.2L1 4.8h3.76L6 1z" fill="#00A870" />
             </svg>
           </div>
           <div className="text-[12px] text-gray-500 leading-snug">
@@ -1121,8 +961,8 @@ function MentorCard({ mentor }: { mentor: typeof MENTORS[0] }) {
         <div className="flex items-start gap-2.5">
           <div className="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ background: '#E8F5F0' }}>
             <svg width="8" height="8" viewBox="0 0 12 12" fill="none">
-              <circle cx="6" cy="4" r="2.5" stroke="#00A870" strokeWidth="1.5"/>
-              <path d="M1.5 10.5c0-2.21 2.01-4 4.5-4s4.5 1.79 4.5 4" stroke="#00A870" strokeWidth="1.5" strokeLinecap="round"/>
+              <circle cx="6" cy="4" r="2.5" stroke="#00A870" strokeWidth="1.5" />
+              <path d="M1.5 10.5c0-2.21 2.01-4 4.5-4s4.5 1.79 4.5 4" stroke="#00A870" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </div>
           <div className="text-[12px] text-gray-500 leading-snug">
@@ -1134,27 +974,21 @@ function MentorCard({ mentor }: { mentor: typeof MENTORS[0] }) {
   );
 }
 
-function MentorSection({ onCTA }: { onCTA: () => void }) {
+function MentorSection() {
   return (
     <section id="mentors" className="py-10 md:py-14 overflow-hidden" style={{ background: 'white' }}>
-      {/* Header — constrained */}
       <div className="max-w-6xl mx-auto px-5 sm:px-8 mb-6">
         <SecHead
-          eyebrow="顶尖导师团队"
-          title="让真正懂行业的人，带你准备求职"
-          sub="导师来自科技、金融、咨询、数据等主流行业，根据学生目标岗位匹配对应导师"
+          eyebrow="改简历的人"
+          title="给你改简历的，是真正筛过简历的人"
+          sub="导师来自科技、金融、咨询、数据等主流行业，多数参与过所在公司的简历初筛与面试，按真实标准给意见。"
           center
         />
       </div>
 
-      {/* Full-bleed auto-scroll track */}
       <div
         className="flex gap-4 overflow-x-auto lg:overflow-x-hidden snap-x snap-mandatory pb-2 [-webkit-overflow-scrolling:touch]"
-        style={{
-          paddingTop: '8px',
-          paddingBottom: '8px',
-          marginTop: '-8px',
-        }}
+        style={{ paddingTop: '8px', paddingBottom: '8px', marginTop: '-8px' }}
       >
         <div className="flex gap-4 lg:[animation:tickerLeft_52s_linear_infinite] lg:hover:[animation-play-state:paused]">
           {[...MENTORS, ...MENTORS].map((mentor, i) => (
@@ -1164,17 +998,13 @@ function MentorSection({ onCTA }: { onCTA: () => void }) {
           ))}
         </div>
       </div>
-
-      {/* <div className="hidden text-center mt-10 md:block">
-        <Btn label="匹配导师" onClick={onCTA} size="lg" />
-      </div> */}
     </section>
   );
 }
 
-// ── 7. Testimonials proof grid ────────────────────────────────────────────────
+// ── 9. Testimonials ───────────────────────────────────────────────────────────
 
-function TestimonialsSection({ onCTA }: { onCTA: () => void }) {
+function TestimonialsSection() {
   const cards = TESTIMONIALS.slice(0, 5);
   const [activeName, setActiveName] = useState(cards[0].name);
   const [activeColumn, setActiveColumn] = useState(0);
@@ -1234,9 +1064,7 @@ function TestimonialsSection({ onCTA }: { onCTA: () => void }) {
         <div className="mb-5 text-[64px] leading-none select-none" style={{ color: 'rgba(0,168,112,0.14)', fontFamily: 'Georgia, serif' }}>
           &ldquo;
         </div>
-        <p className="mb-6 text-[18px] leading-relaxed" style={{ color: INK }}>
-          「{card.quote}」
-        </p>
+        <p className="mb-6 text-[18px] leading-relaxed" style={{ color: INK }}>「{card.quote}」</p>
         <div className="mt-auto flex items-center justify-between gap-4 border-t pt-4" style={{ borderColor: '#ECE5DD' }}>
           <div>
             <div className="text-[15px] font-semibold" style={{ color: INK }}>{card.name}</div>
@@ -1256,24 +1084,18 @@ function TestimonialsSection({ onCTA }: { onCTA: () => void }) {
         <div className="flex flex-col items-center text-center mb-6 [&>div]:mb-0">
           <SecHead
             eyebrow="学员故事"
-            title="真实反馈，他们的成功你也可以复刻"
-            sub="超过3000+学员在一个月内斩获心动的offer，他们曾经也迷茫、焦虑；但当路径被拆清楚，行动被持续推进，结果就会一点点发生。"
+            title="同样的背景，换个投法结果就不一样"
+            sub="他们的简历内容没有凭空变好，只是终于投到了对的岗位，并且被人看见了。"
             center
           />
         </div>
 
         <div
           className="hidden gap-4 lg:grid"
-          style={{
-            gridTemplateColumns,
-            transition: 'grid-template-columns 520ms cubic-bezier(0.22,1,0.36,1)',
-          }}
+          style={{ gridTemplateColumns, transition: 'grid-template-columns 520ms cubic-bezier(0.22,1,0.36,1)' }}
         >
           {[0, 1, 2].map(column => (
-            <div
-              key={column}
-              className={column === activeColumn ? 'grid min-h-[360px] gap-4' : 'grid min-h-[360px] grid-rows-2 gap-4'}
-            >
+            <div key={column} className={column === activeColumn ? 'grid min-h-[360px] gap-4' : 'grid min-h-[360px] grid-rows-2 gap-4'}>
               {column === activeColumn ? (
                 <BigCard />
               ) : (
@@ -1290,10 +1112,7 @@ function TestimonialsSection({ onCTA }: { onCTA: () => void }) {
             <div
               key={card.name}
               className="relative flex flex-col rounded-[14px] border p-5"
-              style={{
-                background: 'rgba(255,255,255,0.76)',
-                borderColor: HAIRLINE,
-              }}
+              style={{ background: 'rgba(255,255,255,0.76)', borderColor: HAIRLINE }}
             >
               <p className="mb-5 text-[14px] leading-relaxed" style={{ color: INK }}>「{card.quote}」</p>
               <div className="mt-auto border-t pt-3" style={{ borderColor: '#ECE5DD' }}>
@@ -1303,115 +1122,41 @@ function TestimonialsSection({ onCTA }: { onCTA: () => void }) {
             </div>
           ))}
         </div>
-
-        {/* <div className="hidden text-center mt-8 md:block">
-          <Btn label="查看案例" onClick={onCTA} />
-        </div> */}
       </div>
     </section>
   );
 }
 
-
-// ── 9. Partners ───────────────────────────────────────────────────────────────
-
-const BRAND_CARDS = [
-  {
-    number: '01',
-    label: 'Data Insight',
-    title: '数据洞察',
-    desc: '结合学员案例、目标行业与岗位趋势，帮助学生判断更适合的实习和求职方向。',
-  },
-  {
-    number: '02',
-    label: 'AI Matching',
-    title: 'AI 赋能',
-    desc: '借助 AI 分析简历、项目和岗位匹配度，让准备更聚焦、更高效。',
-  },
-  {
-    number: '03',
-    label: 'Expert Support',
-    title: '专业支持',
-    desc: '顾问与导师跟进关键节点，把策略转化为行动，帮助学生更接近目标机会。',
-  },
-];
-
-function BrandSection({ onCTA }: { onCTA: () => void }) {
-  return (
-    <Sec bg="white" id="aboutus" className="!py-14 sm:!py-16">
-      <div className="text-center mb-8">
-        <SecHead
-            eyebrow="品牌实力"
-            title="用真实经验，支撑每一次求职判断"
-            sub="MentorX 将多年学员案例、岗位数据、AI 分析与名企导师经验结合，帮助学生从看清问题，到制定路径，再到持续行动。"
-            center
-          />
-      </div>
-
-      <div className="grid sm:grid-cols-3 gap-4 mb-6 md:mb-8">
-        {BRAND_CARDS.map(({ number, label, title, desc }) => (
-          <div
-            key={title}
-            className="rounded-[14px] p-5 sm:p-6 flex flex-col gap-4 border border-[#DDD6CC] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-[#00A870] hover:shadow-[0_18px_42px_rgba(16,35,29,0.08)]"
-            style={{ background: SURFACE }}
-          >
-            <div
-              className="inline-flex w-fit items-center gap-2 rounded-full px-3 py-2"
-              style={{ background: '#EAF8F1' }}
-            >
-              <span className="text-[16px] font-bold leading-none" style={{ color: GREEN }}>{number}</span>
-              <span className="text-[13px] font-medium leading-none" style={{ color: '#5F8174' }}>/ {label}</span>
-            </div>
-            <div>
-              <div className="text-[15px] font-semibold text-gray-900 mb-1.5">{title}</div>
-              <p className="text-[13px] text-gray-500 leading-relaxed">{desc}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div className="hidden text-center md:block">
-        <Btn label="免费咨询" onClick={onCTA} size="lg" />
-      </div>
-    </Sec>
-  );
-}
-
-
-// ── 11. Footer CTA ────────────────────────────────────────────────────────────
+// ── 10. Footer CTA ────────────────────────────────────────────────────────────
 
 function FooterCTASection({ onCTA }: { onCTA: () => void }) {
   return (
-    <section style={{ background: MINT_BAND }} className="py-10 sm:py-16">
+    <section style={{ background: CANVAS }} className="py-10 sm:py-16">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
         <div className="grid lg:grid-cols-[1fr_auto] gap-8 items-center">
           <div>
             <div className="flex items-center gap-2 mb-3 text-[12px] font-medium tracking-[0.06em]" style={{ color: GREEN }}>
-              开始规划
+              现在开始
             </div>
             <h2 className="text-[28px] sm:text-[36px] lg:text-[42px] font-semibold leading-tight mb-4" style={{ color: INK, letterSpacing: '-0.03em' }}>
-              不确定下一步怎么走？<br />
-              <span style={{ color: GREEN_DARK }}>先让顾问帮你看一眼</span>
+              校招不等人，<br />
+              <span style={{ color: GREEN_DARK }}>先让导师看一眼你的简历</span>
             </h2>
             <p className="text-[15px] mb-0 max-w-xl leading-relaxed md:mb-6" style={{ color: INK_MUTED }}>
-              不确定该投什么岗位？简历投出去没有回音？担心 OPT 时间线来不及？先做一次免费求职诊断，让顾问帮你看清当前最该优化的一步。
+              免费简历诊断：导师告诉你现在这版卡在哪一步，是内容、格式，还是根本投错了岗位。看完再决定要不要用代投。
             </p>
             <button
               onClick={onCTA}
               className="hidden md:inline-flex h-12 items-center px-8 rounded-[10px] text-white text-[15px] font-semibold transition-all hover:opacity-90 active:scale-[0.97]"
-              style={{
-                background: GREEN,
-                boxShadow: '0 8px 24px rgba(0,168,112,0.18)',
-              }}
+              style={{ background: GREEN, boxShadow: '0 8px 24px rgba(0,168,112,0.18)' }}
             >
-              预约免费诊断
+              免费领取简历诊断
             </button>
           </div>
 
-          {/* QR card */}
           <div className="hidden bg-white rounded-[14px] p-6 w-full max-w-[260px] flex-shrink-0 border justify-self-start lg:block lg:justify-self-end" style={{ borderColor: 'rgba(0,168,112,0.14)' }}>
-            <div className="text-[13px] font-semibold text-gray-900 mb-1 leading-snug">扫码领取专属求职规划</div>
-            <div className="text-[11px] text-gray-400 mb-4 leading-relaxed">获取最新岗位资源、简历建议与求职时间线</div>
+            <div className="text-[13px] font-semibold text-gray-900 mb-1 leading-snug">扫码领取免费简历诊断</div>
+            <div className="text-[11px] text-gray-400 mb-4 leading-relaxed">导师逐句反馈 + ATS 评分，看完再决定</div>
             <div className="flex justify-center mb-3">
               <QRCodeSVG size={126} />
             </div>
@@ -1432,17 +1177,22 @@ function FooterCTASection({ onCTA }: { onCTA: () => void }) {
 
 function SiteFooter() {
   return (
-    <footer className="py-4" style={{ background: CANVAS }}>
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <img
-          src={logoImg}
-          alt="蔓藤教育 MentorX"
-          width={540}
-          height={326}
-          className="h-8 w-auto object-contain sm:h-9"
-        />
+    <footer style={{ background: CANVAS }}>
+      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+        <div className="rounded-[14px] px-6 py-5 text-center" style={{ background: GREEN_DARK }}>
+          <div className="text-[15px] font-semibold text-white sm:text-[17px]">
+            省心 + 高效 · 把海投交给专业的人，你只管准备面试
+          </div>
+          <div className="mt-1.5 text-[12px]" style={{ color: '#9BE5C3' }}>
+            你缺的不是努力，是方法和技巧。
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <img src={logoImg} alt="蔓藤教育 MentorX" width={540} height={326} className="h-8 w-auto object-contain sm:h-9" />
         <div className="text-[12px]" style={{ color: INK_MUTED }}>
-          ©2026, 蔓藤教育MentorX Corporation. All Rights Reserved · 专注留学生美国求职辅导
+          ©2026, 蔓藤教育MentorX Corporation. All Rights Reserved · 专注留学生简历优化与求职投递
         </div>
       </div>
     </footer>
@@ -1469,16 +1219,10 @@ function FloatingCTA({ onCTA }: { onCTA: () => void }) {
         transform: show ? 'translateY(0)' : 'translateY(8px)',
       }}
     >
-      <div
-        className="w-11 h-11 rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-transform"
-        style={{ background: '#00A870' }}
-      >
+      <div className="w-11 h-11 rounded-full flex items-center justify-center shadow-lg hover:scale-110 active:scale-95 transition-transform" style={{ background: GREEN }}>
         <MessageCircle size={18} color="white" />
       </div>
-      <div
-        className="text-[10px] font-medium text-gray-600 bg-white px-2.5 py-1 rounded-full shadow-md border"
-        style={{ borderColor: 'rgba(0,0,0,0.08)' }}
-      >
+      <div className="text-[10px] font-medium text-gray-600 bg-white px-2.5 py-1 rounded-full shadow-md border" style={{ borderColor: 'rgba(0,0,0,0.08)' }}>
         联系蔓藤
       </div>
     </button>
@@ -1491,18 +1235,14 @@ function MobileBar({ onCTA }: { onCTA: () => void }) {
   return (
     <div
       className="md:hidden fixed bottom-0 left-0 right-0 z-40 px-4 py-3"
-      style={{
-        background: 'rgba(255,255,255,0.96)',
-        backdropFilter: 'blur(12px)',
-        borderTop: `1px solid ${HAIRLINE}`,
-      }}
+      style={{ background: 'rgba(255,255,255,0.96)', backdropFilter: 'blur(12px)', borderTop: `1px solid ${HAIRLINE}` }}
     >
       <button
         onClick={onCTA}
         className="w-full h-12 rounded-[10px] text-white text-[15px] font-semibold transition-all active:scale-[0.98]"
-        style={{ background: '#00A870' }}
+        style={{ background: GREEN }}
       >
-        打开微信，领取诊断
+        打开微信，领取简历诊断
       </button>
     </div>
   );
@@ -1511,11 +1251,12 @@ function MobileBar({ onCTA }: { onCTA: () => void }) {
 // ── Nav ───────────────────────────────────────────────────────────────────────
 
 const NAV_ITEMS = [
-  { id: 'solution', label: '求职方案' },
+  { id: 'dual-track', label: '双轨改简历' },
+  { id: 'edaix', label: 'ATS 合作' },
   { id: 'flow', label: '服务流程' },
-  { id: 'mentors', label: '导师资源' },
-  { id: 'success', label: '成功案例' },
-  { id: 'aboutus', label: '关于蔓藤' },
+  { id: 'included', label: '包含服务' },
+  { id: 'mentors', label: '导师团队' },
+  { id: 'success', label: '学员案例' },
 ];
 
 function NavBar({ onCTA }: { onCTA: () => void }) {
@@ -1583,7 +1324,7 @@ function NavBar({ onCTA }: { onCTA: () => void }) {
           <img src={logoImg} alt="蔓藤教育 MentorX" width={540} height={326} className="h-10 w-auto object-contain" />
         </div>
 
-        <div className="hidden md:flex items-center gap-8 text-[14px] text-gray-500 font-normal">
+        <div className="hidden md:flex items-center gap-7 text-[14px] text-gray-500 font-normal">
           {NAV_ITEMS.map(({ id, label }) => {
             const active = activeId === id;
             return (
@@ -1603,7 +1344,7 @@ function NavBar({ onCTA }: { onCTA: () => void }) {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <a
-            href="/en/general"
+            href="/en/resume"
             className="inline-flex h-9 items-center justify-center rounded-full border px-3 text-[13px] font-semibold transition-all hover:border-[#00A870] hover:text-[#00A870] active:scale-[0.97]"
             style={{ borderColor: 'rgba(0,168,112,0.2)', color: GREEN_DARK, background: 'rgba(255,255,255,0.72)' }}
             aria-label="Switch language"
@@ -1613,7 +1354,7 @@ function NavBar({ onCTA }: { onCTA: () => void }) {
           <button
             onClick={onCTA}
             className="h-9 px-5 rounded-full text-white text-[14px] font-medium transition-all hover:opacity-90 active:scale-[0.97]"
-            style={{ background: '#00A870' }}
+            style={{ background: GREEN }}
           >
             免费咨询
           </button>
@@ -1625,7 +1366,7 @@ function NavBar({ onCTA }: { onCTA: () => void }) {
 
 // ── Root ──────────────────────────────────────────────────────────────────────
 
-export function LandingPage() {
+export function ResumeService() {
   const [modalOpen, setModalOpen] = useState(false);
   const open = (event?: unknown) => {
     const { isMobile } = trackCTAIntent(event, WEIXIN_URL);
@@ -1687,12 +1428,14 @@ export function LandingPage() {
       <NavBar onCTA={open} />
       <div className="h-16" aria-hidden="true" />
       <HeroSection onCTA={open} />
+      <PainSection />
       <StatsSection />
-      <PainPointsSection onCTA={open} />
-      <WhyMentorXSection onCTA={open} />
-      <MentorSection onCTA={open} />
-      <TestimonialsSection onCTA={open} />
-      <BrandSection onCTA={open} />
+      <DualTrackSection />
+      <EdaixSection onCTA={open} />
+      <FlowSection />
+      <IncludedSection onCTA={open} />
+      <MentorSection />
+      <TestimonialsSection />
       <FooterCTASection onCTA={open} />
       <SiteFooter />
 

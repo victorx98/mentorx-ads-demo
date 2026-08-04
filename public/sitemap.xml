@@ -169,4 +169,40 @@
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://lp.mentorx.net/campus-recruiting</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/campus-recruiting" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/campus-recruiting" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/campus-recruiting" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/en/campus-recruiting</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/campus-recruiting" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/campus-recruiting" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/campus-recruiting" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/resume</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/resume" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/resume" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/resume" />
+  </url>
+  <url>
+    <loc>https://lp.mentorx.net/en/resume</loc>
+    <lastmod>2026-08-03</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://lp.mentorx.net/resume" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://lp.mentorx.net/en/resume" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lp.mentorx.net/resume" />
+  </url>
 </urlset>
