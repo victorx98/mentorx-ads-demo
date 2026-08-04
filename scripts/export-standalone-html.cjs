@@ -25,6 +25,8 @@ const routes = [
   { route: '/occupation-short-version', file: 'occupation-short-version.html' },
   { route: '/en/occupation-short-version', file: 'en-occupation-short-version.html' },
   { route: '/general-2pageposter', file: 'general-2pageposter.html' },
+  { route: '/campus-recruiting', file: 'campus-recruiting.html' },
+  { route: '/en/campus-recruiting', file: 'en-campus-recruiting.html' },
 ];
 
 const routeFileMap = Object.fromEntries(routes.map(({ route, file }) => [route, file]));

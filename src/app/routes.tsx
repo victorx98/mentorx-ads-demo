@@ -17,6 +17,8 @@ const InternshipShortVersionEn = lazy(() => import('./components/InternshipShort
 const OccupationShortVersion = lazy(() => import('./components/OccupationShortVersion').then(module => ({ default: module.Occupation })));
 const OccupationShortVersionEn = lazy(() => import('./components/OccupationShortVersionEn').then(module => ({ default: module.Occupation })));
 const General2PagePoster = lazy(() => import('./components/General2PagePoster').then(module => ({ default: module.General2PagePoster })));
+const CampusRecruiting = lazy(() => import('./components/CampusRecruiting').then(module => ({ default: module.CampusRecruiting })));
+const CampusRecruitingEn = lazy(() => import('./components/CampusRecruitingEn').then(module => ({ default: module.CampusRecruitingEn })));
 
 export type AppRoute = {
   path: string;
@@ -192,6 +194,18 @@ export const appRoutes: AppRoute[] = [
     path: '/general-2pageposter',
     label: 'General 2 Page Poster',
     element: <General2PagePoster />,
+    showInNav: false,
+  },
+  {
+    path: '/campus-recruiting',
+    label: '中美校招双通道',
+    element: <CampusRecruiting />,
+    showInNav: true,
+  },
+  {
+    path: '/en/campus-recruiting',
+    label: 'Campus Recruiting EN',
+    element: <CampusRecruitingEn />,
     showInNav: false,
   },
 ];

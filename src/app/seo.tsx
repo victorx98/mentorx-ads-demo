@@ -261,6 +261,24 @@ export const seoEntries: Record<string, SeoEntry> = {
     alternatePath: '/occupation-support',
     robots: 'index, follow',
   },
+  '/campus-recruiting': {
+    title: '中美校招双通道｜留学生校园招聘全流程支持｜MentorX 蔓藤教育',
+    description: '面向本科与硕士在读留学生的校招赋能计划：美国 + 中国双通道岗位资源、名企导师 1v1、AI 课程体系与全流程投递支持，留美或回国都能走通。',
+    keywords: '留学生校招；秋招；春招；校园招聘；回国求职；美国校招；实习内推；中美双通道',
+    lang: 'zh-CN',
+    canonicalPath: '/campus-recruiting',
+    alternatePath: '/en/campus-recruiting',
+    robots: 'index, follow',
+  },
+  '/en/campus-recruiting': {
+    title: 'US–China Dual-Track Campus Recruiting for International Students｜MentorX',
+    description: 'A campus-recruiting program for international students: 1:1 mentors from top employers, an AI-powered curriculum, and job pipelines in both the US and China — so staying or returning both stay open.',
+    keywords: 'campus recruiting; new grad jobs; international student job search; China campus hiring; US campus hiring; referrals; internships',
+    lang: 'en',
+    canonicalPath: '/en/campus-recruiting',
+    alternatePath: '/campus-recruiting',
+    robots: 'index, follow',
+  },
   '/general-2pageposter': {
     title: '留学生美国求职辅导｜简历修改、面试辅导、实习全职规划｜MentorX ',
     description: '了解 MentorX 留学生求职辅导服务，覆盖美国实习、全职求职、OPT/CPT 求职规划、简历优化和面试准备。',
@@ -345,6 +363,12 @@ function getServiceName(path: string, entry: SeoEntry) {
     return isEnglish
       ? 'Role-Based Career Coaching for International Students'
       : '留学生岗位定制求职辅导';
+  }
+
+  if (path.includes('campus-recruiting')) {
+    return isEnglish
+      ? 'US–China Dual-Track Campus Recruiting Program for International Students'
+      : '留学生中美校招双通道求职赋能计划';
   }
 
   return isEnglish
