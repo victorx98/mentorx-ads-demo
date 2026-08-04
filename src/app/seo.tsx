@@ -279,6 +279,24 @@ export const seoEntries: Record<string, SeoEntry> = {
     alternatePath: '/campus-recruiting',
     robots: 'index, follow',
   },
+  '/resume': {
+    title: '简历代投 + AI 改简历｜真人导师精修 + ATS 优化｜MentorX 蔓藤教育',
+    description: '简历别再海投了。真人导师逐句精修，配合 EdAIX 的 ATS 评分与 JD 差距分析，精准筛岗、定制化代投、每日投递日报，把海投交给专业的人。',
+    keywords: '简历代投；简历修改；AI 改简历；ATS 简历优化；美国找工作；岗位内推；投递日报',
+    lang: 'zh-CN',
+    canonicalPath: '/resume',
+    alternatePath: '/en/resume',
+    robots: 'index, follow',
+  },
+  '/en/resume': {
+    title: 'Managed Applications + AI Résumé Editing｜Mentor-Led and ATS-Ready｜MentorX',
+    description: 'Stop mass-applying. Mentor-led line-by-line rewrites plus EdAIX ATS scoring and JD gap analysis, with targeted role screening, tailored submissions, and daily reports.',
+    keywords: 'resume writing service; AI resume; ATS resume optimization; managed job applications; job referrals; international student job search',
+    lang: 'en',
+    canonicalPath: '/en/resume',
+    alternatePath: '/resume',
+    robots: 'index, follow',
+  },
   '/general-2pageposter': {
     title: '留学生美国求职辅导｜简历修改、面试辅导、实习全职规划｜MentorX ',
     description: '了解 MentorX 留学生求职辅导服务，覆盖美国实习、全职求职、OPT/CPT 求职规划、简历优化和面试准备。',
@@ -369,6 +387,12 @@ function getServiceName(path: string, entry: SeoEntry) {
     return isEnglish
       ? 'US–China Dual-Track Campus Recruiting Program for International Students'
       : '留学生中美校招双通道求职赋能计划';
+  }
+
+  if (path.includes('resume')) {
+    return isEnglish
+      ? 'Résumé Editing and Managed Job Application Service for International Students'
+      : '留学生简历精修与代投服务';
   }
 
   return isEnglish

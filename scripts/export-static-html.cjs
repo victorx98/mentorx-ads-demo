@@ -29,6 +29,8 @@ const routes = [
   '/en/occupation-short-version',
   '/campus-recruiting',
   '/en/campus-recruiting',
+  '/resume',
+  '/en/resume',
 ];
 
 function relativeAssetPrefix(route) {

@@ -19,6 +19,8 @@ const OccupationShortVersionEn = lazy(() => import('./components/OccupationShort
 const General2PagePoster = lazy(() => import('./components/General2PagePoster').then(module => ({ default: module.General2PagePoster })));
 const CampusRecruiting = lazy(() => import('./components/CampusRecruiting').then(module => ({ default: module.CampusRecruiting })));
 const CampusRecruitingEn = lazy(() => import('./components/CampusRecruitingEn').then(module => ({ default: module.CampusRecruitingEn })));
+const ResumeService = lazy(() => import('./components/ResumeService').then(module => ({ default: module.ResumeService })));
+const ResumeServiceEn = lazy(() => import('./components/ResumeServiceEn').then(module => ({ default: module.ResumeServiceEn })));
 
 export type AppRoute = {
   path: string;
@@ -206,6 +208,18 @@ export const appRoutes: AppRoute[] = [
     path: '/en/campus-recruiting',
     label: 'Campus Recruiting EN',
     element: <CampusRecruitingEn />,
+    showInNav: false,
+  },
+  {
+    path: '/resume',
+    label: '简历代投 + AI 改简历',
+    element: <ResumeService />,
+    showInNav: true,
+  },
+  {
+    path: '/en/resume',
+    label: 'Resume Service EN',
+    element: <ResumeServiceEn />,
     showInNav: false,
   },
 ];

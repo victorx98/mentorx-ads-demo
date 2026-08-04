@@ -27,6 +27,8 @@ const routes = [
   { route: '/general-2pageposter', file: 'general-2pageposter.html' },
   { route: '/campus-recruiting', file: 'campus-recruiting.html' },
   { route: '/en/campus-recruiting', file: 'en-campus-recruiting.html' },
+  { route: '/resume', file: 'resume.html' },
+  { route: '/en/resume', file: 'en-resume.html' },
 ];
 
 const routeFileMap = Object.fromEntries(routes.map(({ route, file }) => [route, file]));

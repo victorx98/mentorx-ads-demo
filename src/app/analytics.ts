@@ -49,6 +49,7 @@ export function getPageType(pathname = typeof window !== 'undefined' ? window.lo
   ) return 'occupation_support';
   if (normalized === '/general-2pageposter') return 'general_2pageposter';
   if (normalized === '/campus-recruiting') return 'campus_recruiting';
+  if (normalized === '/resume') return 'resume_service';
 
   return normalized.replace(/^\//, '').replaceAll('-', '_') || 'unknown';
 }
