@@ -546,16 +546,16 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
               className="font-semibold leading-[1.1] mb-4 text-[30px] md:hidden"
               style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)' }}
             >
-              You get one campus season.<br />
-              Don&rsquo;t bet it on <span style={{ color: GREEN }}>one market</span>.
+              Stay in the US, or go back?<br />
+              Get ready for <span style={{ color: GREEN }}>both</span>.
             </h1>
 
             <h1
               className="hidden font-semibold leading-[1.1] mb-4 md:block md:text-[36px] lg:text-[48px]"
               style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)' }}
             >
-              You get one campus season.<br />
-              Don&rsquo;t bet it on <span style={{ color: GREEN }}>one market</span>.
+              Stay in the US, or go back?<br />
+              Get ready for <span style={{ color: GREEN }}>both</span>.
             </h1>
 
             <p className="hidden text-[17px] leading-relaxed mb-5 max-w-[19rem] sm:max-w-md md:block" style={{ color: INK_MUTED }}>

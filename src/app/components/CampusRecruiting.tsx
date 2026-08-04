@@ -546,16 +546,16 @@ function HeroSection({ onCTA }: { onCTA: () => void }) {
               className="font-semibold leading-[1.1] mb-4 text-[30px] md:hidden"
               style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', wordBreak: 'keep-all', overflowWrap: 'normal' }}
             >
-              <span className="whitespace-nowrap">校招只有一次，</span><br />
-              <span className="whitespace-nowrap">别只准备<span style={{ color: GREEN }}>一条路</span>。</span>
+              <span className="whitespace-nowrap">留美还是回国？</span><br />
+              <span className="whitespace-nowrap"><span style={{ color: GREEN }}>两条路</span>一起准备。</span>
             </h1>
 
             <h1
               className="hidden font-semibold leading-[1.1] mb-4 md:block md:text-[36px] lg:text-[50px]"
               style={{ color: INK, letterSpacing: '-0.04em', maxWidth: 'clamp(0px, calc(100vw - 40px), 34rem)', wordBreak: 'keep-all', overflowWrap: 'normal' }}
             >
-              校招只有一次，<br />
-              别只准备<span style={{ color: GREEN }}>一条路</span>。
+              留美还是回国？<br />
+              <span style={{ color: GREEN }}>两条路</span>一起准备。
             </h1>
 
             <p className="hidden text-[17px] leading-relaxed mb-5 max-w-[19rem] sm:max-w-md md:block" style={{ color: INK_MUTED, overflowWrap: 'anywhere' }}>
